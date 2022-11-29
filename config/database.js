@@ -21,6 +21,22 @@ module.exports.dbInit = async function dbInit() {
         dialect: 'mysql'
     });
     sequelize.sync({ alter: true });
-
     module.exports.db = sequelize;
+}
+
+module.exports.configureDb = function configureDb() {
+
+    let Shop = require('../models/shop');
+    let Classification = require('../models/classification');
+    let Position = require('../models/position');
+    let Product = require('../models/product');
+    let Employee = require('../models/employee');
+    let ShopEmployee = require('../models/shop_employee');
+    let ShopProduct = require('../models/shop_product');
+
+    Shop.belongsToMany(Product, { through: ShopProduct });
+    Product.belongsToMany(Shop, { through: ShopProduct });
+    // ---------------------------------------------------
+    Shop.belongsToMany(Employee, { through: ShopEmployee });
+    Employee.belongsToMany(Shop, { through: ShopEmployee });
 }

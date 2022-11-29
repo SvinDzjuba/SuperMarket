@@ -11,13 +11,13 @@ Position.init(
         },
         name: {
             type: DataTypes.STRING(50),
-            allowNull: false
+            allowNull: false,
         }
     },
     {
         sequelize: db,
         modelName: 'position',
-        timestamps: false
+        timestamps: false,
     }
 )
 
