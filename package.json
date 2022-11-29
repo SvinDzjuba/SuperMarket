@@ -1,0 +1,26 @@
+{
+  "name": "supermarket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SvinDzjuba/SuperMarket.git"
+  },
+  "author": "SvinDzjuba",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SvinDzjuba/SuperMarket/issues"
+  },
+  "homepage": "https://github.com/SvinDzjuba/SuperMarket#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20",
+    "sequelize": "^6.25.8"
+  }
+}
