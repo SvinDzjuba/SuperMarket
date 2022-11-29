@@ -22,9 +22,6 @@ Product.init(
                 key: 'id'
             }
         },
-        weight: {
-            type: DataTypes.DOUBLE,
-        },
         price: {
             type: DataTypes.DOUBLE,
             allowNull: false,

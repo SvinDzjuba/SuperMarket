@@ -1,0 +1,94 @@
+[
+    {
+        "name": "Maxima XX",
+        "address": "Puru tee 77",
+        "employees": [
+            {
+                "fullName": "Elena Sabieva",
+                "age": 41,
+                "position": "Director"
+            },
+            {
+                "fullName": "Julia Tendes",
+                "age": 36,
+                "position": "Deputy director"
+            },
+            {
+                "fullName": "Maksim Dzjubenko",
+                "age": 18,
+                "position": "Attendant"
+            },
+            {
+                "fullName": "Daniel Monjane",
+                "age": 22,
+                "position": "Manager"
+            }
+        ],
+        "products": [
+            {
+                "name": "Tomatoes",
+                "classification": "Vegetables",
+                "price": 2.54,
+                "description": "Spanish tomatoes"
+            },
+            {
+                "name": "Jacobs coffee beans",
+                "classification": "Hot drinks",
+                "price": 9.49,
+                "description": ""
+            }
+        ]
+    },
+    {
+        "name": "Selver",
+        "address": "Tartu mnt 25",
+        "employees": [
+            {
+                "fullName": "Arina Safronova",
+                "age": 46,
+                "position": "Director"
+            },
+            {
+                "fullName": "Alina Porknova",
+                "age": 36,
+                "position": "Deputy director"
+            },
+            {
+                "fullName": "Maksim Dzjubenko",
+                "age": 18,
+                "position": "Manager"
+            },
+            {
+                "fullName": "Daniel Monjane",
+                "age": 22,
+                "position": "Attendant"
+            }
+        ],
+        "products": [
+            {
+                "name": "Tomatoes",
+                "classification": "Vegetables",
+                "price": 2.54,
+                "description": "Spanish tomatoes"
+            },
+            {
+                "name": "Jacobs coffee beans",
+                "classification": "Hot drinks",
+                "price": 9.49,
+                "description": ""
+            },
+            {
+                "name": "Apples",
+                "classification": "Fruits",
+                "price": 1.59,
+                "description": ""
+            },
+            {
+                "name": "Pepsi 1.5L",
+                "classification": "Carbonated drinks",
+                "price": 0.95,
+                "description": ""
+            }
+        ]
+    }
+]
