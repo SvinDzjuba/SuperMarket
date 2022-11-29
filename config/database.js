@@ -1,7 +1,6 @@
 const { Sequelize } = require('sequelize')
 const mysql = require('mysql2');
 
-
 module.exports.dbInit = async function dbInit() {
     // Create connection to MySQL
     const connection = mysql.createConnection({
@@ -22,4 +21,6 @@ module.exports.dbInit = async function dbInit() {
         dialect: 'mysql'
     });
     sequelize.sync({ alter: true });
+
+    module.exports.db = sequelize;
 }
