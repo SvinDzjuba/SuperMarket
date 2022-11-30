@@ -1,7 +1,9 @@
-const { dbInit, configureDb } = require('./config/database');
+const { createDb, db, sequelizeConn } = require('./config/database');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -11,5 +13,24 @@ app.listen(PORT, () => {
 });
 
 // Configure database
-dbInit();
+let Shop = require('./models/shop');
+let Classification = require('./models/classification');
+let Position = require('./models/position');
+let Product = require('./models/product');
+let Employee = require('./models/employee');
+let ShopEmployee = require('./models/shop_employee');
+let ShopProduct = require('./models/shop_product');
+
+Shop.belongsToMany(Product, { through: ShopProduct });
+Product.belongsToMany(Shop, { through: ShopProduct });
+// ---------------------------------------------------
+Shop.belongsToMany(Employee, { through: ShopEmployee });
+Employee.belongsToMany(Shop, { through: ShopEmployee });
+
+const { insertData } = require('./data/insert_data');
+async function configureDb() {
+    await createDb();
+    await db.sync({ alter: true });
+    insertData();
+}
 configureDb();
