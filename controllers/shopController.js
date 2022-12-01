@@ -51,7 +51,7 @@ exports.delete = (req, res) => {
     });
 }
 
-exports.update = (req, req) => {
+exports.update = (req, res) => {
     if(!req.body.name && !req.body.address) {
         res.status(404).send({
             message: 'You must provide the shop data!'

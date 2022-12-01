@@ -1,4 +1,4 @@
-const { createDb, db, sequelizeConn } = require('./config/database');
+const { createDb, db } = require('./config/database');
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -6,6 +6,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Import routes
+require('./routes/classificationRoute')(app);
+require('./routes/employeeRoute')(app);
+require('./routes/positionRoute')(app);
+require('./routes/productRoute')(app);
+require('./routes/shopRoute')(app);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

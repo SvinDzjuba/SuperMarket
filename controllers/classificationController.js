@@ -12,13 +12,13 @@ exports.findAll = (req, res) => {
 }
 
 exports.create = (req, res) => {
-    if(!req.params.name) {
+    if(!req.body.name) {
         res.status(404).send({
             message: 'You must provide a classification name!'
         });
         return;
     }
-    Classification.create({ name: req.params.name })
+    Classification.create({ name: req.body.name })
         .then(data => {
             res.send(data);
         }).catch(err => {
@@ -47,7 +47,7 @@ exports.delete = (req, res) => {
     });
 }
 
-exports.update = (req, req) => {
+exports.update = (req, res) => {
     if(!req.body.name) {
         res.status(404).send({
             message: 'You must provide the classification name!'

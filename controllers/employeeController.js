@@ -59,7 +59,7 @@ exports.delete = (req, res) => {
     });
 }
 
-exports.update = async (req, req) => {
+exports.update = async (req, res) => {
     if(!req.body.fullName && !req.body.age && !req.body.position) {
         res.status(404).send({
             message: 'You must provide the employee data!'

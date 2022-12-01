@@ -59,7 +59,7 @@ exports.delete = (req, res) => {
     });
 }
 
-exports.update = async (req, req) => {
+exports.update = async (req, res) => {
     if(!req.body.name && !req.body.price && !req.body.classification) {
         res.status(404).send({
             message: 'You must provide the product data!'
