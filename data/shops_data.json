@@ -36,6 +36,12 @@
                 "classification": "Hot drinks",
                 "price": 9.49,
                 "description": ""
+            },
+            {
+                "name": "Biscuits",
+                "classification": "Sweets",
+                "price": 2.23,
+                "description": "Vanilla biscuits"
             }
         ]
     },

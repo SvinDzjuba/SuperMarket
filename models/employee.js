@@ -12,10 +12,11 @@ Employee.init(
         },
         fullName: {
             type: DataTypes.STRING,
-            allowNull: true,
+            allowNull: false,
         },
         age: {
             type: DataTypes.INTEGER,
+            allowNull: false,
         },
         position: {
             type: DataTypes.INTEGER,
