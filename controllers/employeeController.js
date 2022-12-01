@@ -47,20 +47,22 @@ exports.delete = (req, res) => {
         });
         return;
     }
-    Employee.delete(req.params.id)
-        .then(data => {
-            res.send(data);
-        }).catch(err => {
-            res.status(500).send({
-                message: err.message || 'Unable to delete employee!'
-            });
+    Employee.destroy({
+        where: { id: req.params.id }
+    })
+    .then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || 'Unable to delete employee!'
         });
+    });
 }
 
 exports.update = async (req, req) => {
     if(!req.body.fullName && !req.body.age && !req.body.position) {
         res.status(404).send({
-            message: 'You must provide employee data!'
+            message: 'You must provide the employee data!'
         });
         return;
     }
@@ -68,17 +70,16 @@ exports.update = async (req, req) => {
         where: { name: req.body.position },
         attributes: ['id']
     });
-    const employee = {
+    Employee.upsert({ 
         fullName: req.body.fullName,
         age: req.body.age,
         position: position.id
-    }
-    Employee.update(employee)
-        .then(data => {
-            res.send(data);
-        }).catch(err => {
-            res.status(500).send({
-                message: err.message || 'Unable to update employee!'
-            });
+    })
+    .then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || 'Unable to update employee!'
         });
+    });
 }
