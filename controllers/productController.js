@@ -23,21 +23,23 @@ exports.create = async (req, res) => {
         where: { name: req.body.classification },
         attributes: ['id']
     });
-    if(classification != null) {
-        const product = {
-            name: req.body.name,
-            price: req.body.price,
-            classification: classification.id
-        }
-        Product.create(product)
-            .then(data => {
-                res.send(data);
-            }).catch(err => {
-                res.status(500).send({
-                    message: err.message || 'Unable to create product!'
-                });
-            });
+    if(classification == null) {
+        res.send({ message: 'This position does not exist!' })
+        return;
     }
+    const product = {
+        name: req.body.name,
+        price: req.body.price,
+        classification: classification.id
+    }
+    Product.findOrCreate({ where: product })
+        .then(data => {
+            res.send(data);
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || 'Unable to create product!'
+            });
+        });
 }
 
 exports.delete = (req, res) => {
@@ -50,8 +52,8 @@ exports.delete = (req, res) => {
     Product.destroy({
         where: { id: req.params.id }
     })
-    .then(data => {
-        res.send(data);
+    .then(() => {
+        res.send({ message: `Product (id: ${req.params.id}) was successfully deleted!` });
     }).catch(err => {
         res.status(500).send({
             message: err.message || 'Unable to delete product!'
@@ -60,7 +62,7 @@ exports.delete = (req, res) => {
 }
 
 exports.update = async (req, res) => {
-    if(!req.body.name && !req.body.price && !req.body.classification) {
+    if(!req.body.id || !req.body.name || !req.body.price || !req.body.classification) {
         res.status(404).send({
             message: 'You must provide the product data!'
         });
@@ -70,16 +72,27 @@ exports.update = async (req, res) => {
         where: { name: req.body.classification },
         attributes: ['id']
     });
-    Product.upsert({ 
-        name: req.body.name,
-        price: req.body.price,
-        classification: classification.id
-    })
-    .then(data => {
-        res.send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || 'Unable to update product!'
+    let product = null;
+    if(classification == null) {
+        product = {
+            id: req.body.id,
+            name: req.body.name,
+            price: req.body.price,
+        }
+    } else {
+        product = {
+            id: req.body.id,
+            name: req.body.name,
+            price: req.body.price,
+            classification: classification.id
+        }
+    }
+    Product.upsert(product)
+        .then(data => {
+            res.send(data);
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || 'Unable to update product!'
+            });
         });
-    });
 }

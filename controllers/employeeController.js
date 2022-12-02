@@ -19,25 +19,27 @@ exports.create = async (req, res) => {
         });
         return;
     }
-    const position = await Position.findOne({
+    let position = await Position.findOne({
         where: { name: req.body.position },
         attributes: ['id']
     });
-    if(position != null) {
-        const employee = {
-            fullName: req.body.fullName,
-            age: req.body.age,
-            position: position.id
-        }
-        Employee.create(employee)
-            .then(data => {
-                res.send(data);
-            }).catch(err => {
-                res.status(500).send({
-                    message: err.message || 'Unable to create employee!'
-                });
-            });
+    if(position == null) {
+        res.send({ message: 'This position does not exist!' })
+        return;
     }
+    const employee = {
+        fullName: req.body.fullName,
+        age: req.body.age,
+        position: position.id
+    }
+    Employee.findOrCreate({ where: employee })
+        .then(data => {
+            res.send(data);
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || 'Unable to create employee!'
+            });
+        });
 }
 
 exports.delete = (req, res) => {
@@ -50,8 +52,8 @@ exports.delete = (req, res) => {
     Employee.destroy({
         where: { id: req.params.id }
     })
-    .then(data => {
-        res.send(data);
+    .then(() => {
+        res.send({ message: `Employee (id: ${req.params.id}) was successfully deleted!` });
     }).catch(err => {
         res.status(500).send({
             message: err.message || 'Unable to delete employee!'
@@ -60,7 +62,7 @@ exports.delete = (req, res) => {
 }
 
 exports.update = async (req, res) => {
-    if(!req.body.fullName && !req.body.age && !req.body.position) {
+    if(!req.body.id || !req.body.fullName || !req.body.age || !req.body.position) {
         res.status(404).send({
             message: 'You must provide the employee data!'
         });
@@ -70,16 +72,27 @@ exports.update = async (req, res) => {
         where: { name: req.body.position },
         attributes: ['id']
     });
-    Employee.upsert({ 
-        fullName: req.body.fullName,
-        age: req.body.age,
-        position: position.id
-    })
-    .then(data => {
-        res.send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || 'Unable to update employee!'
+    let employee = null;
+    if(position == null) { 
+        employee = {
+            id: req.body.id,
+            fullName: req.body.fullName,
+            age: req.body.age
+        }
+    } else {
+        employee = {
+            id: req.body.id,
+            fullName: req.body.fullName,
+            age: req.body.age,
+            position: position.id
+        }
+    }
+    Employee.upsert(employee)
+        .then(data => {
+            res.send(data);
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || 'Unable to update employee!'
+            });
         });
-    });
 }

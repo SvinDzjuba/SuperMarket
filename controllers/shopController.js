@@ -126,8 +126,8 @@ exports.delete = (req, res) => {
     Shop.destroy({
         where: { id: req.params.id }
     })
-    .then(data => {
-        res.send(data);
+    .then(() => {
+        res.send({ message: `Shop (id: ${req.params.id}) was successfully deleted!` });
     }).catch(err => {
         res.status(500).send({
             message: err.message || 'Unable to delete shop!'
@@ -136,13 +136,14 @@ exports.delete = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    if(!req.body.name && !req.body.address) {
+    if(!req.body.id || !req.body.name || !req.body.address) {
         res.status(404).send({
             message: 'You must provide the shop data!'
         });
         return;
     }
     Shop.upsert({ 
+        id: req.body.id,
         name: req.body.name,
         address: req.body.address,
     })
