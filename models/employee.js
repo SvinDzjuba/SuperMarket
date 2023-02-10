@@ -14,8 +14,8 @@ Employee.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        age: {
-            type: DataTypes.INTEGER,
+        birthDate: {
+            type: DataTypes.DATE,
             allowNull: false,
         },
         position: {
@@ -25,6 +25,10 @@ Employee.init(
                 model: Position,
                 key: 'id'
             }
+        },
+        entered: {
+            type: DataTypes.DATE,
+            allowNull: false,
         }
     },
     {

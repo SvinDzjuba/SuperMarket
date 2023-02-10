@@ -21,10 +21,12 @@ app.listen(PORT, () => {
 
 // Configure database
 let Shop = require('./models/shop');
+let Type = require('./models/type');
 let Classification = require('./models/classification');
 let Position = require('./models/position');
 let Product = require('./models/product');
 let Employee = require('./models/employee');
+let ClassificationType = require('./models/classification_type');
 let ShopEmployee = require('./models/shop_employee');
 let ShopProduct = require('./models/shop_product');
 
@@ -33,11 +35,13 @@ Product.belongsToMany(Shop, { through: ShopProduct });
 // ---------------------------------------------------
 Shop.belongsToMany(Employee, { through: ShopEmployee });
 Employee.belongsToMany(Shop, { through: ShopEmployee });
+// ---------------------------------------------------
+Classification.belongsToMany(Type, { through: ClassificationType });
 
 const { insertData } = require('./data/insert_data');
 async function configureDb() {
     await createDb();
     await db.sync({ alter: true });
-    insertData();
+    // insertData();
 }
 configureDb();

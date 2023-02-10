@@ -1,6 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const { db } = require('../config/database');
-const Classification = require('./classification');
+const ClassificationType = require('./classification_type');
 
 class Product extends Model {}
 Product.init(
@@ -14,11 +14,11 @@ Product.init(
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        classification: {
+        ClassificationType: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: Classification,
+                model: ClassificationType,
                 key: 'id'
             }
         },
