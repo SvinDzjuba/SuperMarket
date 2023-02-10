@@ -15,7 +15,7 @@ Employee.init(
             allowNull: false,
         },
         birthDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false,
         },
         position: {
@@ -26,8 +26,8 @@ Employee.init(
                 key: 'id'
             }
         },
-        entered: {
-            type: DataTypes.DATE,
+        enteredDate: {
+            type: DataTypes.DATEONLY,
             allowNull: false,
         }
     },

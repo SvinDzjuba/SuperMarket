@@ -5,22 +5,22 @@
         "employees": [
             {
                 "fullName": "Elena Sabieva",
-                "age": 41,
+                "birthDate": 41,
                 "position": "Director"
             },
             {
                 "fullName": "Julia Tendes",
-                "age": 36,
+                "birthDate": 36,
                 "position": "Deputy director"
             },
             {
                 "fullName": "Maksim Dzjubenko",
-                "age": 18,
+                "birthDate": 18,
                 "position": "Attendant"
             },
             {
                 "fullName": "Daniel Monjane",
-                "age": 22,
+                "birthDate": 22,
                 "position": "Manager"
             }
         ],
@@ -51,22 +51,22 @@
         "employees": [
             {
                 "fullName": "Arina Safronova",
-                "age": 46,
+                "birthDate": 46,
                 "position": "Director"
             },
             {
                 "fullName": "Alina Porknova",
-                "age": 36,
+                "birthDate": 36,
                 "position": "Deputy director"
             },
             {
                 "fullName": "Maksim Dzjubenko",
-                "age": 18,
+                "birthDate": 18,
                 "position": "Manager"
             },
             {
                 "fullName": "Daniel Monjane",
-                "age": 22,
+                "birthDate": 22,
                 "position": "Consultant"
             }
         ],
