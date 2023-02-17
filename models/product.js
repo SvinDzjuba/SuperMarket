@@ -14,7 +14,7 @@ Product.init(
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        ClassificationType: {
+        classificationType: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {

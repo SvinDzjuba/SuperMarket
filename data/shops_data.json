@@ -5,41 +5,54 @@
         "employees": [
             {
                 "fullName": "Elena Sabieva",
-                "birthDate": 41,
-                "position": "Director"
+                "birthDate": "2000-02-01",
+                "position": "Director",
+                "enteredDate": "2018-05-25"
             },
             {
                 "fullName": "Julia Tendes",
-                "birthDate": 36,
-                "position": "Deputy director"
+                "birthDate": "1989-08-21",
+                "position": "Deputy director",
+                "enteredDate": "2020-08-08"
             },
             {
                 "fullName": "Maksim Dzjubenko",
-                "birthDate": 18,
-                "position": "Attendant"
+                "birthDate": "2004-12-22",
+                "position": "Attendant",
+                "enteredDate": "2023-01-15"
             },
             {
                 "fullName": "Daniel Monjane",
-                "birthDate": 22,
-                "position": "Manager"
+                "birthDate": "2004-01-24",
+                "position": "Manager",
+                "enteredDate": "2022-09-14"
             }
         ],
         "products": [
             {
-                "name": "Tomatoes",
-                "classification": "Vegetables",
+                "name": "Estonian tomatoes",
+                "classification": {
+                    "name": "Vegetables",
+                    "type": "Tomatoes"
+                },
                 "price": 2.54,
                 "description": "Spanish tomatoes"
             },
             {
                 "name": "Jacobs coffee beans",
-                "classification": "Hot drinks",
+                "classification": {
+                    "name": "Drinks",
+                    "type": "Hot drinks"
+                },
                 "price": 9.49,
                 "description": ""
             },
             {
-                "name": "Biscuits",
-                "classification": "Sweets",
+                "name": "Biscuits with butter",
+                "classification": {
+                    "name": "Sweets",
+                    "type": "Biscuits"
+                },
                 "price": 2.23,
                 "description": "Vanilla biscuits"
             }
@@ -51,47 +64,63 @@
         "employees": [
             {
                 "fullName": "Arina Safronova",
-                "birthDate": 46,
-                "position": "Director"
+                "birthDate": "1999-02-21",
+                "position": "Director",
+                "enteredDate": "2023-02-08"
             },
             {
                 "fullName": "Alina Porknova",
-                "birthDate": 36,
-                "position": "Deputy director"
+                "birthDate": "2002-02-13",
+                "position": "Deputy director",
+                "enteredDate": "2018-06-08"
             },
             {
                 "fullName": "Maksim Dzjubenko",
-                "birthDate": 18,
-                "position": "Manager"
+                "birthDate": "2004-12-22",
+                "position": "Manager",
+                "enteredDate": "2018-06-08"
             },
             {
                 "fullName": "Daniel Monjane",
-                "birthDate": 22,
-                "position": "Consultant"
+                "birthDate": "2004-01-24",
+                "position": "Consultant",
+                "enteredDate": "2018-06-08"
             }
         ],
         "products": [
             {
-                "name": "Tomatoes",
-                "classification": "Vegetables",
+                "name": "Yellow tomatoes",
+                "classification": {
+                    "name": "Vegetables",
+                    "type": "Tomatoes"
+                },
                 "price": 2.54,
                 "description": "Spanish tomatoes"
             },
             {
                 "name": "Jacobs coffee beans",
-                "classification": "Hot drinks",
+                "classification": {
+                    "name": "Drinks",
+                    "type": "Hot drinks"
+                },
                 "price": 9.49,
                 "description": ""
             },
             {
-                "name": "Apples",
-                "classification": "Fruits",
+                "name": "Bulgarian apples",
+                "classification": {
+                    "name": "Fruits",
+                    "type": "Apples"
+                },
                 "price": 1.59,
                 "description": ""
             },
             {
                 "name": "Pepsi 1.5L",
-                "classification": "Carbonated drinks",
+                "classification": {
+                    "name": "Drinks",
+                    "type": "Carbonated drinks"
+                },
                 "price": 0.95,
                 "description": ""
             }

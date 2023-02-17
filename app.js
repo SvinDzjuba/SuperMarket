@@ -42,6 +42,6 @@ const { insertData } = require('./data/insert_data');
 async function configureDb() {
     await createDb();
     await db.sync({ alter: true });
-    // insertData();
+    insertData();
 }
 configureDb();

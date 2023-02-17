@@ -1,5 +1,7 @@
 const jsonData = require('./shops_data.json');
 const Classification = require('../models/classification');
+const Type = require('../models/type');
+const ClassificationType = require('../models/classification_type');
 const Employee = require('../models/employee');
 const Position = require('../models/position');
 const Product = require('../models/product');
@@ -23,12 +25,30 @@ module.exports.insertData = async () => {
             });
         }
     }
-    // Create all classifications
+    // Create all classifications and types
     for (let i = 0; i < products.length; i++) {
         let product = products[i];
         for (let j = 0; j < product.length; j++) {
             await Classification.findOrCreate({
-                where: { name: product[j].classification },
+                where: { name: product[j].classification.name },
+                attributes: ['id']
+            });
+            let classification = await Classification.findOne({
+                where: { name: product[j].classification.name },
+                attributes: ['id']
+            });
+            await Type.findOrCreate({
+                where: { name: product[j].classification.type },
+            });
+            let type = await Type.findOne({
+                where: { name: product[j].classification.type },
+                attributes: ['id']
+            });
+            await ClassificationType.findOrCreate({
+                where: {
+                    classificationId: classification.id,
+                    typeId: type.id
+                }
             });
         }
     }
@@ -60,16 +80,18 @@ module.exports.insertData = async () => {
             await Employee.findOrCreate({
                 where: {
                     fullName: employees[i][j].fullName,
-                    age: employees[i][j].age,
-                    position: position.id
+                    birthDate: employees[i][j].birthDate,
+                    position: position.id,
+                    enteredDate: employees[i][j].enteredDate
                 }
             });
             // Find employee id to create relation between shop and employee
             let employee = await Employee.findOne({
                 where: {
                     fullName: employees[i][j].fullName,
-                    age: employees[i][j].age,
-                    position: position.id
+                    birthDate: employees[i][j].birthDate,
+                    position: position.id,
+                    enteredDate: employees[i][j].enteredDate
                 },
                 attributes: ['id']
             })
@@ -85,14 +107,25 @@ module.exports.insertData = async () => {
         for (let j = 0; j < products[i].length; j++) {
             // Find particular classification id for product.classification
             let classification = await Classification.findOne({
-                where: { name: products[i][j].classification },
+                where: { name: products[i][j].classification.name },
+                attributes: ['id']
+            });
+            let type = await Type.findOne({
+                where: { name: products[i][j].classification.type },
+                attributes: ['id']
+            });
+            let classificationType = await ClassificationType.findOne({
+                where: { 
+                    classificationId: classification.id,
+                    typeId: type.id
+                },
                 attributes: ['id']
             });
             // Create product if it doesn't exist
             await Product.findOrCreate({
                 where: {
                     name: products[i][j].name,
-                    classification: classification.id,
+                    classificationType: classificationType.id,
                     price: products[i][j].price,
                     description: products[i][j].description,
                 }
@@ -101,7 +134,7 @@ module.exports.insertData = async () => {
             let product = await Product.findOne({
                 where: {
                     name: products[i][j].name,
-                    classification: classification.id,
+                    classificationType: classificationType.id,
                     price: products[i][j].price,
                     description: products[i][j].description,
                 },
