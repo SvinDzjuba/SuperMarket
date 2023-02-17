@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize')
+const { Sequelize } = require('sequelize');
 const mysql = require('mysql2');
 
 module.exports.createDb = async function createDb() {
@@ -8,28 +8,36 @@ module.exports.createDb = async function createDb() {
         user: 'root',
         password: ''
     });
-
+    
     // Create database if not exist
-    connection.query(`CREATE DATABASE IF NOT EXISTS SupermarketDB`);
+    connection.query('SHOW DATABASES WHERE `database` = "SupermarketDB"', 
+        function(err, result) {
+            if(result.length != 0) {
+                // Database already created
+                console.log('The database has already been created!');
+                createSeqConnection();
+            } else {
+                // Database not created yet 
+                connection.query(`CREATE DATABASE SupermarketDB`, 
+                    function(err, result) {
+                        if(err == null) {
+                            createSeqConnection();
+                        } else {
+                            console.log('An error occurred while creating the database!');
+                        }
+                    });
+            }
+        });
 
     // Close the connection
-    connection.end();
+    setTimeout(() => { connection.end() }, 2000);
 }
 
 // Create sequelize connection
-try {
+function createSeqConnection() {
     const sequelize = new Sequelize('SupermarketDB', 'root', '', {
         host: 'localhost',
         dialect: 'mysql'
     });
     module.exports.db = sequelize;
-} catch (error) {
-    createDb()
-        .then(() => {
-            const sequelize = new Sequelize('SupermarketDB', 'root', '', {
-                host: 'localhost',
-                dialect: 'mysql'
-            });
-            module.exports.db = sequelize;
-        });
 }
