@@ -1,7 +1,7 @@
-const Product = require('../models/product');
-const ClassificationType = require('../models/classification_type');
-const Classification = require('../models/classification');
-const Type = require('../models/type');
+const Product = require('../../models/product');
+const ClassificationType = require('../../models/classification_type');
+const Classification = require('../../models/classification');
+const Type = require('../../models/type');
 
 exports.findAll = (req, res) => {
     Product.findAll()

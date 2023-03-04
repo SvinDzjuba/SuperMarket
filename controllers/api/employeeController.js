@@ -1,5 +1,5 @@
-const Employee = require('../models/employee');
-const Position = require('../models/position');
+const Employee = require('../../models/employee');
+const Position = require('../../models/position');
 
 exports.findAll = (req, res) => {
     Employee.findAll()

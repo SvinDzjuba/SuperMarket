@@ -19,8 +19,10 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.20",
-    "sequelize": "^6.25.8"
+    "sequelize": "^6.25.8",
+    "sha1-hash-and-verify": "^1.0.4"
   }
 }

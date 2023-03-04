@@ -1,5 +1,5 @@
 module.exports = app => {
-    const controller = require('../controllers/positionController');
+    const controller = require('../../controllers/api/positionController');
     const router = require('express').Router();
 
     router.get('/', controller.findAll);

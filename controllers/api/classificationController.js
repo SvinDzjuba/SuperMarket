@@ -1,12 +1,12 @@
-const Type = require('../models/Type');
+const Classification = require('../../models/classification');
 
 exports.findAll = (req, res) => {
-    Type.findAll()
+    Classification.findAll()
         .then(data => {
             res.send(data);
         }).catch(err => {
             res.status(500).send({
-                message: err.message || 'Unable to get all types!'
+                message: err.message || 'Unable to get all classifications!'
             });
         });
 }
@@ -14,16 +14,16 @@ exports.findAll = (req, res) => {
 exports.create = (req, res) => {
     if(!req.body.name) {
         res.status(404).send({
-            message: 'You must provide a Type name!'
+            message: 'You must provide a classification name!'
         });
         return;
     }
-    Type.create({ name: req.body.name })
+    Classification.create({ name: req.body.name })
         .then(data => {
             res.send(data);
         }).catch(err => {
             res.status(500).send({
-                message: err.message || 'Unable to create Type!'
+                message: err.message || 'Unable to create classification!'
             });
         });
 }
@@ -31,18 +31,18 @@ exports.create = (req, res) => {
 exports.delete = (req, res) => {
     if(!req.params.id) {
         res.status(404).send({
-            message: 'You must provide a Type id!'
+            message: 'You must provide a classification id!'
         });
         return;
     }
-    Type.destroy({
+    Classification.destroy({
         where: { id: req.params.id }
     })
     .then(() => {
-        res.send({ message: `Type (id: ${req.params.id}) was successfully deleted!` });
+        res.send({ message: `Classification (id: ${req.params.id}) was successfully deleted!` });
     }).catch(err => {
         res.status(500).send({
-            message: err.message || 'Unable to delete Type!'
+            message: err.message || 'Unable to delete classification!'
         });
     });
 }
@@ -50,16 +50,16 @@ exports.delete = (req, res) => {
 exports.update = (req, res) => {
     if(!req.body.id || !req.body.name) {
         res.status(404).send({
-            message: 'You must provide the Type name!'
+            message: 'You must provide the classification name!'
         });
         return;
     }
-    Type.upsert({ id: req.body.id, name: req.body.name })
+    Classification.upsert({ id: req.body.id, name: req.body.name })
         .then(data => {
             res.send(data);
         }).catch(err => {
             res.status(500).send({
-                message: err.message || 'Unable to update Type!'
+                message: err.message || 'Unable to update classification!'
             });
         });
 }

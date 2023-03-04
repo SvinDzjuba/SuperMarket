@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config/auth.config');
-const { db } = require('../config/database');
 const User = require('../models/user');
 
 verifyToken = (req, res, next) => {
@@ -18,7 +17,7 @@ verifyToken = (req, res, next) => {
                 message: 'Unauthorized!'
             });
         }
-        erq.userId = decoded.id;
+        req.userId = decoded.id;
         next();
     });
 }

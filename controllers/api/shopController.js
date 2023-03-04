@@ -1,8 +1,8 @@
-const Shop = require('../models/shop');
-const Product = require('../models/product');
-const Employee = require('../models/employee');
-const ShopEmployee = require('../models/shop_employee');
-const ShopProduct = require('../models/shop_product');
+const Shop = require('../../models/shop');
+const Product = require('../../models/product');
+const Employee = require('../../models/employee');
+const ShopEmployee = require('../../models/shop_employee');
+const ShopProduct = require('../../models/shop_product');
 
 exports.findAll = (req, res) => {
     Shop.findAll()

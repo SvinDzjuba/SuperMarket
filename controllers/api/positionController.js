@@ -1,12 +1,12 @@
-const Classification = require('../models/classification');
+const Position = require('../../models/position');
 
 exports.findAll = (req, res) => {
-    Classification.findAll()
+    Position.findAll()
         .then(data => {
             res.send(data);
         }).catch(err => {
             res.status(500).send({
-                message: err.message || 'Unable to get all classifications!'
+                message: err.message || 'Unable to get all positions!'
             });
         });
 }
@@ -14,16 +14,16 @@ exports.findAll = (req, res) => {
 exports.create = (req, res) => {
     if(!req.body.name) {
         res.status(404).send({
-            message: 'You must provide a classification name!'
+            message: 'You must provide a position name!'
         });
         return;
     }
-    Classification.create({ name: req.body.name })
+    Position.create({ name: req.body.name })
         .then(data => {
             res.send(data);
         }).catch(err => {
             res.status(500).send({
-                message: err.message || 'Unable to create classification!'
+                message: err.message || 'Unable to create position!'
             });
         });
 }
@@ -31,18 +31,18 @@ exports.create = (req, res) => {
 exports.delete = (req, res) => {
     if(!req.params.id) {
         res.status(404).send({
-            message: 'You must provide a classification id!'
+            message: 'You must provide a position id!'
         });
         return;
     }
-    Classification.destroy({
+    Position.destroy({
         where: { id: req.params.id }
     })
     .then(() => {
-        res.send({ message: `Classification (id: ${req.params.id}) was successfully deleted!` });
+        res.send({ message: `Position (id: ${req.params.id}) was successfully deleted!` });
     }).catch(err => {
         res.status(500).send({
-            message: err.message || 'Unable to delete classification!'
+            message: err.message || 'Unable to delete position!'
         });
     });
 }
@@ -50,16 +50,16 @@ exports.delete = (req, res) => {
 exports.update = (req, res) => {
     if(!req.body.id || !req.body.name) {
         res.status(404).send({
-            message: 'You must provide the classification name!'
+            message: 'You must provide the position name!'
         });
         return;
     }
-    Classification.upsert({ id: req.body.id, name: req.body.name })
+    Position.upsert({ id: req.body.id, name: req.body.name })
         .then(data => {
             res.send(data);
         }).catch(err => {
             res.status(500).send({
-                message: err.message || 'Unable to update classification!'
+                message: err.message || 'Unable to update position!'
             });
         });
 }
