@@ -8,4 +8,5 @@ module.exports.insertData = async () => {
     dataController.createAllPositions(data);
     dataController.createAllClassificationsAndTypes(data);
     dataController.createShopsAndRelated(data);
+    dataController.createAllRoles();
 }

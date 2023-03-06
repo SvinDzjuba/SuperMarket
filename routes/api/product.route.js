@@ -1,5 +1,5 @@
 module.exports = app => {
-    const controller = require('../../controllers/api/employeeController');
+    const controller = require('../../controllers/api/product.controller');
     const router = require('express').Router();
 
     router.get('/', controller.findAll);
@@ -7,5 +7,5 @@ module.exports = app => {
     router.delete('/:id', controller.delete);
     router.put('/', controller.update);
 
-    app.use('/employee', router);
+    app.use('/api/product', router);
 }

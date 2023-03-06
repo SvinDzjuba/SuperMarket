@@ -1,5 +1,5 @@
 module.exports = app => {
-    const controller = require('../../controllers/api/positionController');
+    const controller = require('../../controllers/api/type.controller');
     const router = require('express').Router();
 
     router.get('/', controller.findAll);
@@ -7,5 +7,5 @@ module.exports = app => {
     router.delete('/:id', controller.delete);
     router.put('/', controller.update);
 
-    app.use('/position', router);
+    app.use('/api/type', router);
 }

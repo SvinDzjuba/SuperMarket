@@ -12,11 +12,12 @@ Role.init(
         name: {
             type: DataTypes.TEXT,
             allowNull: false,
+            unique: true,
         },
     },
     {
         sequelize: db,
-        modelName: 'Role',
+        modelName: 'role',
         timestamps: true,
     }
 )

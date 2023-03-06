@@ -5,8 +5,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-// app.use('view engine', 'ejs');
-// app.use('views')
+app.set('views', 'views');
+app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3000;
@@ -21,6 +21,9 @@ async function configureDb() {
         const { db } = require('./config/database');
     
         // Configure database
+        let User = require('./models/user');
+        let Role = require('./models/role');
+        let UserRoles = require('./models/user_roles');
         let Shop = require('./models/shop');
         let Type = require('./models/type');
         let Classification = require('./models/classification');
@@ -37,17 +40,24 @@ async function configureDb() {
         Shop.belongsToMany(Employee, { through: ShopEmployee });
         Employee.belongsToMany(Shop, { through: ShopEmployee });
         // ---------------------------------------------------
+        User.belongsToMany(Role, { through: UserRoles });
+        Role.belongsToMany(User, { through: UserRoles });
+        // ---------------------------------------------------
         Classification.belongsToMany(Type, { through: ClassificationType });
 
         await db.sync({ alter: true });
         
-        // Import routes
-        require('./routes/api/classificationRoute')(app);
-        require('./routes/api/typeRoute')(app);
-        require('./routes/api/employeeRoute')(app);
-        require('./routes/api/positionRoute')(app);
-        require('./routes/api/productRoute')(app);
-        require('./routes/api/shopRoute')(app);
+        // Api routes
+        require('./routes/api/classification.route')(app);
+        require('./routes/api/type.route')(app);
+        require('./routes/api/employee.route')(app);
+        require('./routes/api/position.route')(app);
+        require('./routes/api/product.route')(app);
+        require('./routes/api/shop.route')(app);
+
+        // Pages routes
+        require('./routes/pages/home.route')(app);
+        require('./routes/pages/auth.route')(app);
         
         const { insertData } = require('./data/data.insert');
         insertData();
