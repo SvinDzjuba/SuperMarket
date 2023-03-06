@@ -1,4 +1,5 @@
-exports.createAllClassificationsAndTypes = async (data) => {
+exports.createAllPositions = async (data) => {
+    const Position = require('../models/position');
     const employees = data.map(shop => shop.employees);
     for (let i = 0; i < employees.length; i++) {
         let employee = employees[i];

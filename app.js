@@ -5,8 +5,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use('view engine', 'ejs');
-app.use('views')
+// app.use('view engine', 'ejs');
+// app.use('views')
 app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3000;
@@ -49,7 +49,7 @@ async function configureDb() {
         require('./routes/api/productRoute')(app);
         require('./routes/api/shopRoute')(app);
         
-        const { insertData } = require('./data/insert_data');
+        const { insertData } = require('./data/data.insert');
         insertData();
     }, 100);
 }

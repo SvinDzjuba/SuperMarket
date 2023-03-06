@@ -1,4 +1,17 @@
-exports.createShopsAndRRelated = async (data) => {
+exports.createShopsAndRelated = async (data) => {
+    const Classification = require('../models/classification');
+    const Type = require('../models/type');
+    const ClassificationType = require('../models/classification_type');
+    const Employee = require('../models/employee');
+    const Position = require('../models/position');
+    const Product = require('../models/product');
+    const Shop = require('../models/shop');
+    const ShopEmployee = require('../models/shop_employee');
+    const ShopProduct = require('../models/shop_product');
+
+    const employees = data.map(shop => shop.employees);
+    const products = data.map(shop => shop.products);
+
     for (let i = 0; i < data.length; i++) {
         // Find shop for its id
         let shop = await Shop.findOne({
