@@ -1,21 +1,17 @@
 const { authJwt } = require('../../middleware');
 
+exports.checkAccess = (req, res) => {
+    res.send({ message: req.uid });
+};
 exports.allAccess = (req, res) => {
-    let token = req.headers['x-access-token'];
-    if(!token) { 
-        res.render('home', { message: 'All Access Content!' });
-        return;
-    } else {
-        res.render('home', { message: req.roles })
-    }
+    res.send({ message: 'Public Content!' });
 };
 exports.userBoard = (req, res) => {
-    // res.render('home', { message: 'User Content!' });
-    res.render('home', { message: req.roles })
+    res.send({ message: 'User Content!' });
 };
 exports.adminBoard = (req, res) => {
-    res.render('home', { message: 'Admin Content!' });
+    res.send({ message: 'Admin Content!' });
 };
 exports.moderatorBoard = (req, res) => {
-    res.render('home', { message: 'Moderator Content!' });
+    res.send({ message: 'Moderator Content!' });
 };

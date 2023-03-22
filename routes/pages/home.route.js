@@ -10,5 +10,10 @@ module.exports = function (app) {
         next();
     });
 
-    app.get('/', [authJwt.verifyToken], controller.userBoard);
+    app.get('/', [authJwt.verifyToken], controller.allAccess);
+    // app.get('/', [authJwt.verifyToken], async (req, res) => {
+    //     res.render('home', {
+    //         username: req.username
+    //     })
+    // });
 };
