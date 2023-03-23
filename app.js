@@ -54,7 +54,8 @@ async function configureDb() {
         require('./routes/api/employee.route')(app);
         require('./routes/api/position.route')(app);
         require('./routes/api/product.route')(app);
-        require('./routes/api/shop.route')(app);
+        require('./routes/api/shop.route')(app); 
+        require('./routes/api/role.route')(app); 
 
         // Pages routes
         require('./routes/pages/home.route')(app);
@@ -62,6 +63,6 @@ async function configureDb() {
         
         const { insertData } = require('./data/data.insert');
         insertData();
-    }, 100);
+    }, 700);
 }
 configureDb();

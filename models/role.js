@@ -12,7 +12,6 @@ Role.init(
         name: {
             type: DataTypes.TEXT,
             allowNull: false,
-            unique: true,
         },
     },
     {

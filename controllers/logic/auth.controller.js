@@ -65,7 +65,11 @@ exports.signIn = async (req, res) => {
             }
 
             user.getRoles().then(roles => {
-                const token = jwt.sign({ uid: user.id, roles: roles }, config.secret, {
+                for (let i = 0; i < roles.length; i++) {
+                    let role = roles[i].name;
+                    roles[i].name = role.toUpperCase();
+                }
+                const token = jwt.sign({ userId: user.id, roles: roles, username: req.body.username }, config.secret, {
                     expiresIn: 86400 // 24 hours
                 });
                 
@@ -74,20 +78,8 @@ exports.signIn = async (req, res) => {
                     for (let i = 0; i < roles.length; i++) {
                         authorities.push("ROLE_" + roles[i].name.toUpperCase());
                     }
-                    // res.status(200).redirect('/');
-
-                    // res.status(200).render('home', {
-                    //     username: user.username,
-                    //     email: user.email,
-                    // });
-                    
-                    res.status(200).send({
-                        id: user.id,
-                        username: user.username,
-                        email: user.email,
-                        roles: authorities,
-                        accessToken: token
-                    });
+                    process.env.TOKEN = token;
+                    res.status(200).redirect('/');
                 });
             })
             .catch(err => {

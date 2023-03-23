@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+        integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/js/home.js"></script>
     <link rel="stylesheet" href="/css/styles.css">
     <title>Supermarket</title>
 </head>
@@ -12,12 +16,18 @@
 <body>
     <div id="home">
         <h1>Home Page</h1>
-        <p>Welcome, 
-            <% if(username == undefined) { %>
+        <p>Welcome,
+            <% if(username==undefined) { %>
                 Guest!
-            <% } else { %>
-                <%= username %>!
+                <% } else { %>
+                    <%= username %>!
+                        <% } %>
+        </p>
+        <p class="roles">ROLES:&nbsp;[&nbsp;
+            <% for (let i = 0; i < roles.length; i++) { %>
+                <%= roles[i].name %>&nbsp;
             <% } %>
+            ]
         </p>
         <a href="/signin">Sign in</a>
     </div>

@@ -9,10 +9,18 @@ module.exports = function (app) {
         );
         next();
     });
-    app.get('/', [authJwt.verifyToken], async (req, res) => {
-        res.render('home', {
-            username: req.username,
-            roles: req.roles
-        });
-    });
+
+    app.get("/api/all", controller.allAccess);
+
+    app.get(
+        "/api/user",
+        [authJwt.verifyToken],
+        controller.userBoard
+    );
+
+    app.get(
+        "/api/admin",
+        [authJwt.verifyToken, authJwt.isAdmin],
+        controller.adminBoard
+    );
 };

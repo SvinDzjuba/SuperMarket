@@ -18,7 +18,7 @@ module.exports.createDb = async function createDb() {
                 createSeqConnection();
             } else {
                 // Database not created yet 
-                connection.query(`CREATE DATABASE SupermarketDB`, 
+                connection.query(`CREATE DATABASE SupermarketDB CHARACTER SET utf8 COLLATE utf8_general_ci`, 
                     function(err, result) {
                         if(err == null) {
                             createSeqConnection();

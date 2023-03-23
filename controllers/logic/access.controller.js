@@ -7,7 +7,7 @@ exports.allAccess = (req, res) => {
     res.send({ message: 'Public Content!' });
 };
 exports.userBoard = (req, res) => {
-    res.send({ message: 'User Content!' });
+    res.status(200).send({ message: 'User Content!' });
 };
 exports.adminBoard = (req, res) => {
     res.send({ message: 'Admin Content!' });
