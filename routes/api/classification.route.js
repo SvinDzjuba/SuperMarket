@@ -7,5 +7,5 @@ module.exports = app => {
     router.delete('/:id', controller.delete);
     router.put('/', controller.update);
 
-    app.use('/api/classification', router);
+    app.use('/api/classifications', router);
 }
