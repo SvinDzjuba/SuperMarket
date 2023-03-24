@@ -11,8 +11,8 @@ module.exports = function (app) {
     });
     app.get('/', [authJwt.verifyToken], async (req, res) => {
         res.render('home', {
-            username: req.username,
-            roles: req.roles
+            username: req.username !== undefined ? req.username : undefined,
+            roles: req.roles !== undefined ? req.roles : undefined
         });
     });
 };

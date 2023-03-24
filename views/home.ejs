@@ -17,18 +17,20 @@
     <div id="home">
         <h1>Home Page</h1>
         <p>Welcome,
-            <% if(username==undefined) { %>
+            <% if(username == undefined) { %>
                 Guest!
                 <% } else { %>
                     <%= username %>!
                         <% } %>
         </p>
-        <p class="roles">ROLES:&nbsp;[&nbsp;
-            <% for (let i = 0; i < roles.length; i++) { %>
-                <%= roles[i].name %>&nbsp;
-            <% } %>
-            ]
-        </p>
+        <% if (roles != undefined) { %>
+            <p class="roles">ROLES:&nbsp;[&nbsp;
+                <% for (let i = 0; i < roles.length; i++) { %>
+                    <%= roles[i].name %>&nbsp;
+                <% } %>
+                ]
+            </p>
+        <% } %>
         <a href="/signin">Sign in</a>
     </div>
 </body>
