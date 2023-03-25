@@ -51,7 +51,7 @@ exports.create = async (req, res) => {
     const product = {
         name: req.body.name,
         price: req.body.price,
-        classificationType: this_ct.id,
+        classificationTypeId: this_ct.id,
         description: req.body.description === undefined ? req.body.description : ''
     }
     Product.findOrCreate({ where: product })
@@ -106,7 +106,7 @@ exports.update = async (req, res) => {
             id: req.body.id,
             name: req.body.name,
             price: req.body.price,
-            classification: classification.id
+            classificationTypeId: classification.id
         }
     }
     Product.upsert(product)

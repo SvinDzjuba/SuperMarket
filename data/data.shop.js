@@ -40,7 +40,7 @@ exports.createShopsAndRelated = async (data) => {
                 where: {
                     fullName: employees[i][j].fullName,
                     birthDate: employees[i][j].birthDate,
-                    position: position.id,
+                    positionId: position.id,
                     enteredDate: employees[i][j].enteredDate
                 }
             });
@@ -49,7 +49,7 @@ exports.createShopsAndRelated = async (data) => {
                 where: {
                     fullName: employees[i][j].fullName,
                     birthDate: employees[i][j].birthDate,
-                    position: position.id,
+                    positionId: position.id,
                     enteredDate: employees[i][j].enteredDate
                 },
                 attributes: ['id']
@@ -84,7 +84,7 @@ exports.createShopsAndRelated = async (data) => {
             await Product.findOrCreate({
                 where: {
                     name: products[i][j].name,
-                    classificationType: classificationType.id,
+                    classificationTypeId: classificationType.id,
                     price: products[i][j].price,
                     description: products[i][j].description,
                 }
@@ -93,7 +93,7 @@ exports.createShopsAndRelated = async (data) => {
             let product = await Product.findOne({
                 where: {
                     name: products[i][j].name,
-                    classificationType: classificationType.id,
+                    classificationTypeId: classificationType.id,
                     price: products[i][j].price,
                     description: products[i][j].description,
                 },

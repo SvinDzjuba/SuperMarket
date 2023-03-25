@@ -176,24 +176,74 @@
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Maxima XX"
                 },
                 "address": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Puru tee 77"
                 },
-                "employeeIds": {
+                "employees": {
                     "type": "array",
                     "items": {
-                        "type": "integer"
+                        "type": "object",
+                        "properties": {
+                            "fullName": {
+                                "type": "string",
+                                "example": "Maksim Dzjubenko"
+                            },
+                            "position": {
+                                "type": "string",
+                                "example": "Director"
+                            },
+                            "birthDate": {
+                                "type": "string",
+                                "pattern": "YYYY-MM-DD",
+                                "example": "2001-01-24"
+                            },
+                            "enteredDate": {
+                                "type": "string",
+                                "pattern": "YYYY-MM-DD",
+                                "example": "2021-12-31"
+                            }
+                        }
                     }
                 },
-                "productIds": {
+                "products": {
                     "type": "array",
                     "items": {
-                        "type": "integer"
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "example": "Estonian tomatoes"
+                            },
+                            "classification": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Vegetables"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "Tomatoes"
+                                    }
+                                }
+                            },
+                            "price": {
+                                "type": "number",
+                                "example": 2.54
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": "Red tomatoes"
+                            }
+                        }
                     }
                 }
             }
@@ -202,21 +252,70 @@
             "type": "object",
             "properties": {
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Maxima XX"
                 },
                 "address": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Puru tee 77"
                 },
-                "employeeIds": {
+                "employees": {
                     "type": "array",
                     "items": {
-                        "type": "integer"
+                        "type": "object",
+                        "properties": {
+                            "fullName": {
+                                "type": "string",
+                                "example": "Maksim Dzjubenko"
+                            },
+                            "position": {
+                                "type": "string",
+                                "example": "Director"
+                            },
+                            "birthDate": {
+                                "type": "string",
+                                "pattern": "YYYY-MM-DD",
+                                "example": "2001-01-24"
+                            },
+                            "enteredDate": {
+                                "type": "string",
+                                "pattern": "YYYY-MM-DD",
+                                "example": "2021-12-31"
+                            }
+                        }
                     }
                 },
-                "productIds": {
+                "products": {
                     "type": "array",
                     "items": {
-                        "type": "integer"
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "example": "Estonian tomatoes"
+                            },
+                            "classification": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Vegetables"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "Tomatoes"
+                                    }
+                                }
+                            },
+                            "price": {
+                                "type": "number",
+                                "example": 2.54
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": "Red tomatoes"
+                            }
+                        }
                     }
                 }
             }

@@ -38,20 +38,23 @@ async function configureDb() {
         let ShopEmployee = require('./models/shop_employee');
         let ShopProduct = require('./models/shop_product');
 
-        Shop.belongsToMany(Product, { through: ShopProduct });
-        Product.belongsToMany(Shop, { through: ShopProduct });
+        Shop.belongsToMany(Product, { through: ShopProduct }, { onDelete: 'CASCADE' }, { onUpdate: 'CASCADE' });
+        Product.belongsToMany(Shop, { through: ShopProduct }, { onDelete: 'CASCADE' }, { onUpdate: 'CASCADE' });
         // ---------------------------------------------------
-        Shop.belongsToMany(Employee, { through: ShopEmployee });
-        Employee.belongsToMany(Shop, { through: ShopEmployee });
+        Shop.belongsToMany(Employee, { through: ShopEmployee }, { onDelete: 'CASCADE' }, { onUpdate: 'CASCADE' });
+        Employee.belongsToMany(Shop, { through: ShopEmployee }, { onDelete: 'CASCADE' }, { onUpdate: 'CASCADE' });
         // ---------------------------------------------------
         User.belongsToMany(Role, { through: UserRoles });
         Role.belongsToMany(User, { through: UserRoles });
         // ---------------------------------------------------
-        Classification.belongsToMany(Type, { through: ClassificationType });
+        Classification.belongsToMany(Type, { through: ClassificationType }, { onDelete: 'CASCADE' }, { onUpdate: 'CASCADE' });
+        ClassificationType.hasMany(Product, { onDelete: 'CASCADE' }, { onUpdate: 'CASCADE' });
+        // ---------------------------------------------------
+        Position.hasMany(Employee, { onDelete: 'CASCADE' }, { onUpdate: 'CASCADE' });
 
-        await db.sync({ alter: true });
+        // await db.sync({ alter: true });
         const { insertData } = require('./data/data.insert');
-        insertData();
+        // insertData();
 
         // Api routes
         require('./routes/api/classification.route')(app);

@@ -21,20 +21,24 @@ exports.findAll = async function(req, res) {
             new Promise(async (resolve, reject) => {
                 let employeesList = [];
                 let productsList = [];
+                // Shop employees
                 const shop_employees = await ShopEmployee.findAll({ where: { shopId: data[i].id } });
                 for (let i = 0; i < shop_employees.length; i++) {
                     const shop_employee = await Employee.findOne({ where: { id: shop_employees[i].employeeId } });
                     const position = await Position.findOne({
                         where: {
-                            id: shop_employee.position
+                            id: shop_employee.positionId
                         }
                     });
                     let employee = {
                         fullName: shop_employee.fullName,
-                        position: position.name
+                        position: position.name,
+                        birthDate: shop_employee.birthDate,
+                        enteredDate: shop_employee.enteredDate
                     };
                     employeesList.push(employee);
                 }
+                // Shop products
                 const shop_products = await ShopProduct.findAll({ where: { shopId: data[i].id } })
                     for (let j = 0; j < shop_products.length; j++) {
                         const shop_product = await Product.findOne({ where: { id: shop_products[j].productId } });
@@ -81,7 +85,8 @@ exports.findAll = async function(req, res) {
 }
 
 exports.create = async (req, res) => {
-    if(!req.body.name || !req.body.address) {
+    if(!req.body.name || !req.body.address
+        || !req.body.products || !req.body.employees) {
         res.status(404).send({
             message: 'You must provide all shop data!'
         });
@@ -182,7 +187,6 @@ exports.create = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
-    console.log(req.params.id);
     if(!req.params.id) {
         res.status(404).send({
             message: 'You must provide a shop id!'

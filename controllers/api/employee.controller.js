@@ -13,7 +13,7 @@ exports.findAll = (req, res) => {
 }
 
 exports.create = async (req, res) => {
-    if(!req.body.fullName || !req.body.age || !req.body.position) {
+    if(!req.body.fullName || !req.body.birthDate || !req.body.position) {
         res.status(404).send({
             message: 'You must provide all employee data!'
         });
@@ -29,8 +29,8 @@ exports.create = async (req, res) => {
     }
     const employee = {
         fullName: req.body.fullName,
-        age: req.body.age,
-        position: position.id
+        birthDate: req.body.birthDate,
+        positionId: position.id
     }
     Employee.findOrCreate({ where: employee })
         .then(data => {
@@ -62,7 +62,7 @@ exports.delete = (req, res) => {
 }
 
 exports.update = async (req, res) => {
-    if(!req.body.id || !req.body.fullName || !req.body.age || !req.body.position) {
+    if(!req.body.id || !req.body.fullName || !req.body.birthDate || !req.body.position) {
         res.status(404).send({
             message: 'You must provide the employee data!'
         });
@@ -77,14 +77,14 @@ exports.update = async (req, res) => {
         employee = {
             id: req.body.id,
             fullName: req.body.fullName,
-            age: req.body.age
+            birthDate: req.body.birthDate
         }
     } else {
         employee = {
             id: req.body.id,
             fullName: req.body.fullName,
-            age: req.body.age,
-            position: position.id
+            birthDate: req.body.birthDate,
+            positionId: position.id
         }
     }
     Employee.upsert(employee)

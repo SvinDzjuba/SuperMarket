@@ -14,14 +14,6 @@ Product.init(
             type: DataTypes.STRING(100),
             allowNull: false
         },
-        classificationType: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: ClassificationType,
-                key: 'id'
-            }
-        },
         price: {
             type: DataTypes.DOUBLE,
             allowNull: false,

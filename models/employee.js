@@ -18,14 +18,6 @@ Employee.init(
             type: DataTypes.DATEONLY,
             allowNull: false,
         },
-        position: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: Position,
-                key: 'id'
-            }
-        },
         enteredDate: {
             type: DataTypes.DATEONLY,
             allowNull: false,
