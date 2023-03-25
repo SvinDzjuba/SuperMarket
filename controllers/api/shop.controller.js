@@ -8,7 +8,7 @@ const ClassificationType = require('../../models/classification_type');
 const ShopEmployee = require('../../models/shop_employee');
 const ShopProduct = require('../../models/shop_product');
 
-exports.findAll = async function(req, res) {
+exports.findAll = async function (req, res) {
     let shops = [];
     let completed = 0;
     const data = await Shop.findAll()
@@ -17,177 +17,159 @@ exports.findAll = async function(req, res) {
                 message: err.message || 'Unable to get all shops!'
             });
         });
-        for (let i = 0; i < data.length; i++) {
-            new Promise(async (resolve, reject) => {
-                let employeesList = [];
-                let productsList = [];
-                // Shop employees
-                const shop_employees = await ShopEmployee.findAll({ where: { shopId: data[i].id } });
-                for (let i = 0; i < shop_employees.length; i++) {
-                    const shop_employee = await Employee.findOne({ where: { id: shop_employees[i].employeeId } });
-                    const position = await Position.findOne({
-                        where: {
-                            id: shop_employee.positionId
-                        }
-                    });
-                    let employee = {
-                        fullName: shop_employee.fullName,
-                        position: position.name,
-                        birthDate: shop_employee.birthDate,
-                        enteredDate: shop_employee.enteredDate
-                    };
-                    employeesList.push(employee);
-                }
-                // Shop products
-                const shop_products = await ShopProduct.findAll({ where: { shopId: data[i].id } })
-                    for (let j = 0; j < shop_products.length; j++) {
-                        const shop_product = await Product.findOne({ where: { id: shop_products[j].productId } });
-                        const classificationType = await ClassificationType.findOne({
-                            where: {
-                                id: shop_product.classificationType
-                            }
-                        });
-                        const classification = await Classification.findOne({
-                            where: {
-                                id: classificationType.classificationId
-                            }
-                        });
-                        const type = await Type.findOne({
-                            where: {
-                                id: classificationType.typeId
-                            }
-                        });
-                        let product = {
-                            name: shop_product.name,
-                            classification: {
-                                name: classification.name,
-                                type: type.name
-                            },
-                            price: shop_product.price
-                        }
-                        productsList.push(product);
+    for (let i = 0; i < data.length; i++) {
+        new Promise(async (resolve, reject) => {
+            let employeesList = [];
+            let productsList = [];
+            // Shop employees
+            const shop_employees = await ShopEmployee.findAll({ where: { shopId: data[i].id } });
+            for (let i = 0; i < shop_employees.length; i++) {
+                const shop_employee = await Employee.findOne({ where: { id: shop_employees[i].employeeId } });
+                const position = await Position.findOne({
+                    where: {
+                        id: shop_employee.positionId
                     }
-                    let shop = {
-                        name: data[i].name,
-                        address: data[i].address,
-                        employees: employeesList,
-                        products: productsList
-                    };
-                    shops.push(shop);
-                    completed++;
-                    resolve(shops);
-            }).then(shopsList => {
-                if(completed == data.length) {
-                    res.send(shopsList);
+                });
+                let employee = {
+                    fullName: shop_employee.fullName,
+                    position: position.name,
+                    birthDate: shop_employee.birthDate,
+                    enteredDate: shop_employee.enteredDate
+                };
+                employeesList.push(employee);
+            }
+            // Shop products
+            const shop_products = await ShopProduct.findAll({ where: { shopId: data[i].id } })
+            for (let j = 0; j < shop_products.length; j++) {
+                const shop_product = await Product.findOne({ where: { id: shop_products[j].productId } });
+                const classificationType = await ClassificationType.findOne({
+                    where: {
+                        id: shop_product.classificationType
+                    }
+                });
+                const classification = await Classification.findOne({
+                    where: {
+                        id: classificationType.classificationId
+                    }
+                });
+                const type = await Type.findOne({
+                    where: {
+                        id: classificationType.typeId
+                    }
+                });
+                let product = {
+                    name: shop_product.name,
+                    classification: {
+                        name: classification.name,
+                        type: type.name
+                    },
+                    price: shop_product.price
                 }
-            })
-        }
+                productsList.push(product);
+            }
+            let shop = {
+                name: data[i].name,
+                address: data[i].address,
+                employees: employeesList,
+                products: productsList
+            };
+            shops.push(shop);
+            completed++;
+            resolve(shops);
+        }).then(shopsList => {
+            if (completed == data.length) {
+                res.send(shopsList);
+            }
+        })
+    }
 }
 
 exports.create = async (req, res) => {
-    if(!req.body.name || !req.body.address
+    console.log(req.body.name);
+    if (!req.body.name || !req.body.address
         || !req.body.products || !req.body.employees) {
         res.status(404).send({
             message: 'You must provide all shop data!'
         });
         return;
     }
-    const shop = {
-        name: req.body.name,
-        address: req.body.address,
-    }
-    await Shop.findOrCreate({ where: shop })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || 'Unable to create shop!'
-            });
-        });
-    const thisShop = await Shop.findOne({
+    const employees = req.body.employees;
+    const products = req.body.products;
+    // Find shop for its id
+    let [shop, created] = await Shop.findOrCreate({
         where: {
             name: req.body.name,
-            address: req.body.address,
+            address: req.body.address
         },
-        attributes: ['id', 'name']
+        attributes: ['id']
     });
-
-    if(thisShop != null && req.body.employeeIds && req.body.productIds) {
-        if(req.body.employeeIds) {
-            const reqEmployee = req.body.employeeIds;
-            if(!Array.isArray(reqEmployee)) {
-                let employee = await Employee.findOne({
-                    where: { id: reqEmployee },
-                    attributes: ['id']
-                });
-                if(employee != null) {
-                    await ShopEmployee.findOrCreate({ 
-                        where: { shopId: thisShop.id, employeeId: employee.id }
-                    }).catch(err => {
-                        res.status(500).send({
-                            message: err.message || 'Unable to add shop employee!'
-                        });
-                    });
-                }
-            } else {
-                for (let i = 0; i < reqEmployee.length; i++) {
-                    let employee = await Employee.findOne({
-                        where: { id: reqEmployee[i] },
-                        attributes: ['id']
-                    });
-                    if(employee != null) {
-                        await ShopEmployee.findOrCreate({ 
-                            where: { shopId: thisShop.id, employeeId: employee.id }
-                        })
-                        .catch(err => {
-                            res.status(500).send({
-                                message: err.message || 'Unable to add shop employees!'
-                            });
-                        });
-                    }
-                }
-            }
-        }
-
-        if(!req.body.productIds) return;
-        const reqProduct = req.body.productIds;
-        if(!Array.isArray(reqProduct)) {
-            let product = await Product.findOne({
-                where: { id: reqProduct },
-                attributes: ['id']
-            });
-            if(product != null) {
-                await ShopProduct.findOrCreate({ 
-                    where: { shopId: thisShop.id, productId: product.id }
-                })
-                .catch(err => {
-                    res.status(500).send({
-                        message: err.message || 'Unable to add shop product!'
-                    });
-                });
-            }
-        } else {
-            for (let i = 0; i < reqProduct.length; i++) {
-                let product = await Product.findOne({
-                    where: { id: reqProduct[i] },
-                    attributes: ['id']
-                });
-                if(product != null) {
-                    await ShopProduct.findOrCreate({ 
-                        where: { shopId: thisShop.id, productId: product.id }
-                    })
-                    .catch(err => {
-                        res.status(500).send({
-                            message: err.message || 'Unable to add shop products!'
-                        });
-                    });
-                }
-            }
-        }
-        res.send({ message: `Shop '${thisShop.name}' was successfully added!` });
+    if(!created) {
+        res.status(200).send({ message: `Shop '${req.body.name}' is already exists!` });
+        return;
     }
+    for (let j = 0; j < employees.length; j++) {
+        // Find particular position id for product.position
+        let [position] = await Position.findOrCreate({
+            where: { name: employees[j].position },
+            attributes: ['id']
+        });
+        // Create employee if it doesn't exist
+        let [employee] = await Employee.findOrCreate({
+            where: {
+                fullName: employees[j].fullName,
+                birthDate: employees[j].birthDate,
+                positionId: position.id,
+                enteredDate: employees[j].enteredDate
+            }
+        });
+        // Create relations between shop and employees
+        await ShopEmployee.findOrCreate({
+            where: {
+                shopId: shop.id,
+                employeeId: employee.id
+            }
+        });
+    }
+
+    for (let j = 0; j < products.length; j++) {
+        // Find particular classification id for product.classification
+        let [classification] = await Classification.findOrCreate({
+            where: { name: products[j].classification.name },
+            attributes: ['id']
+        });
+        let [type] = await Type.findOrCreate({
+            where: { name: products[j].classification.type },
+            attributes: ['id']
+        });
+        let [classificationType] = await ClassificationType.findOrCreate({
+            where: {
+                classificationId: classification.id,
+                typeId: type.id
+            },
+            attributes: ['id']
+        });
+        // Create product if it doesn't exist
+        let [product] = await Product.findOrCreate({
+            where: {
+                name: products[j].name,
+                classificationTypeId: classificationType.id,
+                price: products[j].price,
+                description: products[j].description,
+            }
+        });
+        // Create relations between shop and products
+        await ShopProduct.findOrCreate({
+            where: {
+                productId: product.id,
+                shopId: shop.id
+            }
+        });
+    }
+    res.status(201).send({ message: `Shop '${req.body.name}' was successfully added!` });
 }
 
 exports.delete = async (req, res) => {
-    if(!req.params.id) {
+    if (!req.params.id) {
         res.status(404).send({
             message: 'You must provide a shop id!'
         });
@@ -196,37 +178,37 @@ exports.delete = async (req, res) => {
     await Shop.destroy({
         where: { id: req.params.id }
     })
-    .then(() => {
-        res.send({ message: `Shop (id: ${req.params.id}) was successfully deleted!` });
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || 'Unable to delete shop!'
+        .then(() => {
+            res.send({ message: `Shop (id: ${req.params.id}) was successfully deleted!` });
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || 'Unable to delete shop!'
+            });
         });
-    });
 }
 
 exports.update = (req, res) => {
-    if(!req.params.id || !req.body.name || !req.body.address) {
+    if (!req.params.id || !req.body.name || !req.body.address) {
         res.status(404).send({
             message: 'You must provide the shop data!'
         });
         return;
     }
     Shop.update({
-            name: req.body.name,
-            address: req.body.address,
-        },
+        name: req.body.name,
+        address: req.body.address,
+    },
         {
             where: {
                 id: req.params.id,
             },
         }
     )
-    .then(data => {
-        res.send(data);
-    }).catch(err => {
-        res.status(500).send({
-            message: err.message || 'Unable to update shop!'
+        .then(data => {
+            res.send(data);
+        }).catch(err => {
+            res.status(500).send({
+                message: err.message || 'Unable to update shop!'
+            });
         });
-    }); 
 }

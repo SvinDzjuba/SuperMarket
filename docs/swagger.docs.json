@@ -26,7 +26,7 @@
                 "parameters": [],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Successful operation",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -55,22 +55,24 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "shop object",
-                        "required": true,
+                        "description": "Shop that needs to be added",
                         "schema": {
-                            "type": "object",
-                            "properties": {
-                                "shop": {
-                                    "type": "object",
-                                    "$ref": "#/definitions/Shop"
-                                }
-                            }
+                            "$ref": "#/definitions/Shop"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful operation",
+                        "description": "Shop is already exists",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/shopsResponse"
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Successful operation",
                         "schema": {
                             "type": "array",
                             "items": {
@@ -98,14 +100,14 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "shop id that needs to be updated",
+                        "description": "Shop id that needs to be updated",
                         "required": true,
                         "type": "string"
                     },
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "shop object",
+                        "description": "Shop object",
                         "required": true,
                         "schema": {
                             "type": "object",
@@ -172,6 +174,15 @@
         }
     },
     "definitions": {
+        "AccessToken": {
+            "name": "x-access-token",
+            "in": "header",
+            "description": "Access Token",
+            "required": true,
+            "schema": {
+                "type": "string"
+            }
+        },
         "shopsResponse": {
             "type": "object",
             "properties": {
@@ -202,12 +213,12 @@
                             },
                             "birthDate": {
                                 "type": "string",
-                                "pattern": "YYYY-MM-DD",
+                                "format": "date",
                                 "example": "2001-01-24"
                             },
                             "enteredDate": {
                                 "type": "string",
-                                "pattern": "YYYY-MM-DD",
+                                "format": "date",
                                 "example": "2021-12-31"
                             }
                         }
@@ -274,12 +285,12 @@
                             },
                             "birthDate": {
                                 "type": "string",
-                                "pattern": "YYYY-MM-DD",
+                                "format": "date",
                                 "example": "2001-01-24"
                             },
                             "enteredDate": {
                                 "type": "string",
-                                "pattern": "YYYY-MM-DD",
+                                "format": "date",
                                 "example": "2021-12-31"
                             }
                         }
