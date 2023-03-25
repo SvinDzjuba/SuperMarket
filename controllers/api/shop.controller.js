@@ -1,18 +1,83 @@
 const Shop = require('../../models/shop');
+const Type = require('../../models/type');
 const Product = require('../../models/product');
+const Position = require('../../models/position');
 const Employee = require('../../models/employee');
+const Classification = require('../../models/classification');
+const ClassificationType = require('../../models/classification_type');
 const ShopEmployee = require('../../models/shop_employee');
 const ShopProduct = require('../../models/shop_product');
 
-exports.findAll = (req, res) => {
-    Shop.findAll()
-        .then(data => {
-            res.send(data);
-        }).catch(err => {
+exports.findAll = async function(req, res) {
+    let shops = [];
+    let completed = 0;
+    const data = await Shop.findAll()
+        .catch(err => {
             res.status(500).send({
                 message: err.message || 'Unable to get all shops!'
             });
         });
+        for (let i = 0; i < data.length; i++) {
+            new Promise(async (resolve, reject) => {
+                let employeesList = [];
+                let productsList = [];
+                const shop_employees = await ShopEmployee.findAll({ where: { shopId: data[i].id } });
+                for (let i = 0; i < shop_employees.length; i++) {
+                    const shop_employee = await Employee.findOne({ where: { id: shop_employees[i].employeeId } });
+                    const position = await Position.findOne({
+                        where: {
+                            id: shop_employee.position
+                        }
+                    });
+                    let employee = {
+                        fullName: shop_employee.fullName,
+                        position: position.name
+                    };
+                    employeesList.push(employee);
+                }
+                const shop_products = await ShopProduct.findAll({ where: { shopId: data[i].id } })
+                    for (let j = 0; j < shop_products.length; j++) {
+                        const shop_product = await Product.findOne({ where: { id: shop_products[j].productId } });
+                        const classificationType = await ClassificationType.findOne({
+                            where: {
+                                id: shop_product.classificationType
+                            }
+                        });
+                        const classification = await Classification.findOne({
+                            where: {
+                                id: classificationType.classificationId
+                            }
+                        });
+                        const type = await Type.findOne({
+                            where: {
+                                id: classificationType.typeId
+                            }
+                        });
+                        let product = {
+                            name: shop_product.name,
+                            classification: {
+                                name: classification.name,
+                                type: type.name
+                            },
+                            price: shop_product.price
+                        }
+                        productsList.push(product);
+                    }
+                    let shop = {
+                        name: data[i].name,
+                        address: data[i].address,
+                        employees: employeesList,
+                        products: productsList
+                    };
+                    shops.push(shop);
+                    completed++;
+                    resolve(shops);
+            }).then(shopsList => {
+                if(completed == data.length) {
+                    res.send(shopsList);
+                }
+            })
+        }
 }
 
 exports.create = async (req, res) => {
@@ -77,7 +142,7 @@ exports.create = async (req, res) => {
             }
         }
 
-        if(!req.body.productIds) { return; }
+        if(!req.body.productIds) return;
         const reqProduct = req.body.productIds;
         if(!Array.isArray(reqProduct)) {
             let product = await Product.findOne({
@@ -116,14 +181,15 @@ exports.create = async (req, res) => {
     }
 }
 
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
+    console.log(req.params.id);
     if(!req.params.id) {
         res.status(404).send({
             message: 'You must provide a shop id!'
         });
         return;
     }
-    Shop.destroy({
+    await Shop.destroy({
         where: { id: req.params.id }
     })
     .then(() => {
@@ -136,22 +202,27 @@ exports.delete = (req, res) => {
 }
 
 exports.update = (req, res) => {
-    if(!req.body.id || !req.body.name || !req.body.address) {
+    if(!req.params.id || !req.body.name || !req.body.address) {
         res.status(404).send({
             message: 'You must provide the shop data!'
         });
         return;
     }
-    Shop.upsert({ 
-        id: req.body.id,
-        name: req.body.name,
-        address: req.body.address,
-    })
+    Shop.update({
+            name: req.body.name,
+            address: req.body.address,
+        },
+        {
+            where: {
+                id: req.params.id,
+            },
+        }
+    )
     .then(data => {
         res.send(data);
     }).catch(err => {
         res.status(500).send({
             message: err.message || 'Unable to update shop!'
         });
-    });
+    }); 
 }

@@ -5,7 +5,7 @@ module.exports = app => {
     router.get('/', controller.findAll);
     router.post('/', controller.create);
     router.delete('/:id', controller.delete);
-    router.put('/', controller.update);
+    router.put('/:id', controller.update);
 
     app.use('/api/shops', router);
 }

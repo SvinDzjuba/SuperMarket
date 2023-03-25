@@ -41,12 +41,10 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/shop": {
+            },
             "post": {
-                "summary": "Save the shop",
-                "description": "Save the shop",
+                "summary": "Create a new shop",
+                "description": "Add a new shop",
                 "produces": [
                     "application/json"
                 ],
@@ -137,9 +135,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/api/shop/{id}": {
+            },
             "delete": {
                 "summary": "Delete the shop",
                 "description": "Delete the shop",
@@ -187,6 +183,18 @@
                 },
                 "address": {
                     "type": "string"
+                },
+                "employeeIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "productIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },
@@ -198,6 +206,18 @@
                 },
                 "address": {
                     "type": "string"
+                },
+                "employeeIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "productIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 }
             }
         },

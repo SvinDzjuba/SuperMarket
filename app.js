@@ -50,6 +50,8 @@ async function configureDb() {
         Classification.belongsToMany(Type, { through: ClassificationType });
 
         await db.sync({ alter: true });
+        const { insertData } = require('./data/data.insert');
+        insertData();
 
         // Api routes
         require('./routes/api/classification.route')(app);
@@ -63,9 +65,6 @@ async function configureDb() {
         // Pages routes
         require('./routes/pages/home.route')(app);
         require('./routes/pages/auth.route')(app);
-
-        const { insertData } = require('./data/data.insert');
-        insertData();
 
         // Swagger configuration
         const initSwagger = require('./docs/swagger');
