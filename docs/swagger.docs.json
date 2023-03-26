@@ -18,6 +18,7 @@
     "paths": {
         "/api/shops": {
             "get": {
+                "tags": ["Shop Activity"],
                 "summary": "Get all the shops",
                 "description": "Get all the shops",
                 "produces": [
@@ -43,6 +44,7 @@
                 }
             },
             "post": {
+                "tags": ["Shop Activity"],
                 "summary": "Create a new shop",
                 "description": "Add a new shop",
                 "produces": [
@@ -90,6 +92,7 @@
         },
         "/api/shops/{id}": {
             "put": {
+                "tags": ["Shop Activity"],
                 "summary": "Update the shop",
                 "description": "Update the shop",
                 "produces": [
@@ -132,6 +135,7 @@
                 }
             },
             "delete": {
+                "tags": ["Shop Activity"],
                 "summary": "Delete the shop",
                 "description": "Delete the shop",
                 "produces": [
@@ -154,6 +158,67 @@
                             "items": {
                                 "$ref": "#/definitions/shopsResponse"
                             }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/search/shops-by-product/{product}": {
+            "get": {
+                "tags": ["Search"],
+                "summary": "Get all the shops that have a particular product",
+                "description": "Get all the shops that have a particular product",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "path",
+                        "description": "Product that has any shop",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "product": {
+                                    "type": "string",
+                                    "example": "tomatoes"
+                                },
+                                "shops": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Maxima XX"
+                                            },
+                                            "address": {
+                                                "type": "string",
+                                                "example": "Puru tee 77"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "You must provide a product",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
                         }
                     },
                     "400": {

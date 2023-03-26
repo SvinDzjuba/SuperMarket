@@ -183,7 +183,7 @@ exports.delete = (req, res) => {
         where: { id: req.params.id }
     })
         .then(boolean => {
-            if(boolean == 0) {
+            if (boolean == 0) {
                 res.status(404).send({ message: `There is no shop with [id: ${req.params.id}]!` });
                 return;
             }
@@ -220,7 +220,7 @@ exports.update = async (req, res) => {
     });
     const employees = req.body.employees;
     const products = req.body.products;
-    if(employees != undefined) {
+    if (employees != undefined) {
         for (let j = 0; j < employees.length; j++) {
             // Find particular position id for product.position
             let [position] = await Position.findOrCreate({
@@ -246,7 +246,7 @@ exports.update = async (req, res) => {
         }
     }
 
-    if(products != undefined) {
+    if (products != undefined) {
         for (let j = 0; j < products.length; j++) {
             // Find particular classification id for product.classification
             let [classification] = await Classification.findOrCreate({

@@ -52,7 +52,7 @@ async function configureDb() {
         // ---------------------------------------------------
         Position.hasMany(Employee, { onDelete: 'CASCADE' }, { onUpdate: 'CASCADE' });
 
-        await db.sync({ alter: true });
+        // await db.sync({ alter: true });
         const { insertData } = require('./data/data.insert');
         // insertData();
 
@@ -64,6 +64,7 @@ async function configureDb() {
         require('./routes/api/product.route')(app);
         require('./routes/api/shop.route')(app);
         require('./routes/api/role.route')(app);
+        require('./routes/api/search/shops_by_product.route')(app);
 
         // Pages routes
         require('./routes/pages/home.route')(app);
