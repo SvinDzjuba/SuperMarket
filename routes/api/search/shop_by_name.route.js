@@ -2,7 +2,7 @@ module.exports = app => {
     const controller = require('../../../controllers/api/search.controller');
     const router = require('express').Router();
 
-    router.get('/:product', controller.getShopsByProduct);
+    router.post('/', controller.getShopByName);
 
-    app.use('/api/search/product/shops', router);
+    app.use('/api/search/shop', router);
 }

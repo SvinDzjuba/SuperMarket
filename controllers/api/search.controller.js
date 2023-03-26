@@ -44,4 +44,60 @@ exports.getShopsByProduct = async function (req, res) {
     const addresses = shops.map(el => el.address)
     data.shops = shops.filter(({ address }, index) => !addresses.includes(address, index + 1))
     res.status(200).send(data);
-}
+};
+
+exports.getShopByName = async function (req, res) {
+    if(!req.body.name) {
+        res.status(404).send({ message: 'You must provide a shop name' });
+        return;
+    }
+    const shops = await Shop.findAll({
+        where: {
+            name: req.body.name
+        }
+    });
+    if(shops.length == 0) {
+        res.status(404).send({ message: 'Unable to get shops by this name' });
+        return;
+    }
+    res.status(200).send(shops);
+};
+
+exports.getShopEmployees = async function (req, res) {
+    if(!req.params.id) {
+        res.status(404).send({ message: 'You must provide a shop id' });
+        return;
+    }
+    const shop_employees = await ShopEmployee.findAll({
+        where: {
+            shopId: req.params.id
+        }
+    });
+    if(shop_employees.length == 0) {
+        res.status(404).send({ message: 'Unable to get shop employees' });
+        return;
+    }
+    let employees = [];
+    for (let i = 0; i < shop_employees.length; i++) {
+        let employee = await Employee.findOne({
+            where: {
+                id: shop_employees[i].employeeId
+            }
+        });
+        if(employee != null) {
+            let position = await Position.findOne({
+                where: {
+                    id: employee.positionId
+                }
+            });
+            employee = {
+                fullName: employee.fullName,
+                birthDate: employee.birthDate,
+                enteredDate: employee.enteredDate,
+                position: position.name
+            }
+            employees.push(employee);
+        }
+    }
+    res.status(200).send(employees);
+};

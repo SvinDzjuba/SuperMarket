@@ -169,7 +169,7 @@
                 }
             }
         },
-        "/api/search/shops-by-product/{product}": {
+        "/api/search/product/shops/{product}": {
             "get": {
                 "tags": ["Search"],
                 "summary": "Get all the shops that have a particular product",
@@ -217,6 +217,103 @@
                     },
                     "404": {
                         "description": "You must provide a product",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/search/shop": {
+            "post": {
+                "tags": ["Search"],
+                "summary": "Get shops by name",
+                "description": "Get shops by name",
+                "produces": [
+                    "application/json"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Maxima XX"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Maxima XX"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Puru tee 77"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "You must provide a shop name",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/search/shop/employees/{id}": {
+            "get": {
+                "tags": ["Search"],
+                "summary": "Get all shop employees",
+                "description": "Get all shop employees",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Shop id that need for employees search",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/Employees"
+                        }
+                    },
+                    "404": {
+                        "description": "You must provide a shop id",
                         "schema": {
                             "$ref": "#/definitions/InvalidResponse"
                         }
@@ -385,6 +482,32 @@
                                 "example": "Red tomatoes"
                             }
                         }
+                    }
+                }
+            }
+        },
+        "Employees": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "fullName": {
+                        "type": "string",
+                        "example": "Maksim Dzjubenko"
+                    },
+                    "position": {
+                        "type": "string",
+                        "example": "Director"
+                    },
+                    "birthDate": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2001-01-24"
+                    },
+                    "enteredDate": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2021-12-31"
                     }
                 }
             }

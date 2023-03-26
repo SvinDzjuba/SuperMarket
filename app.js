@@ -64,7 +64,11 @@ async function configureDb() {
         require('./routes/api/product.route')(app);
         require('./routes/api/shop.route')(app);
         require('./routes/api/role.route')(app);
+        
+        // Search routes
         require('./routes/api/search/shops_by_product.route')(app);
+        require('./routes/api/search/shop_by_name.route')(app);
+        require('./routes/api/search/shop_employees.route')(app);
 
         // Pages routes
         require('./routes/pages/home.route')(app);
