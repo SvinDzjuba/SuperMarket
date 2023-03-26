@@ -54,7 +54,7 @@ async function configureDb() {
 
         await db.sync({ alter: true });
         const { insertData } = require('./data/data.insert');
-        insertData();
+        // insertData();
 
         // Api routes
         require('./routes/api/classification.route')(app);

@@ -17,7 +17,7 @@ exports.findAll = async function (req, res) {
                 message: err.message || 'Unable to get all shops!'
             });
         });
-    if(data.length < 1) {
+    if (data.length < 1) {
         res.status(404).send({
             message: 'Unable to get shops!'
         });
@@ -90,7 +90,6 @@ exports.findAll = async function (req, res) {
 }
 
 exports.create = async (req, res) => {
-    console.log(req.body);
     if (!req.body.name || !req.body.address
         || !req.body.products || !req.body.employees) {
         res.status(404).send({
@@ -108,7 +107,7 @@ exports.create = async (req, res) => {
         },
         attributes: ['id']
     });
-    if(!created) {
+    if (!created) {
         res.status(200).send({ message: `Shop '${req.body.name}' is already exists!` });
         return;
     }
@@ -173,18 +172,22 @@ exports.create = async (req, res) => {
     res.status(201).send({ message: `Shop '${req.body.name}' was successfully added!` });
 }
 
-exports.delete = async (req, res) => {
+exports.delete = (req, res) => {
     if (!req.params.id) {
         res.status(404).send({
             message: 'You must provide a shop id!'
         });
         return;
     }
-    await Shop.destroy({
+    Shop.destroy({
         where: { id: req.params.id }
     })
-        .then(() => {
-            res.send({ message: `Shop (id: ${req.params.id}) was successfully deleted!` });
+        .then(boolean => {
+            if(boolean == 0) {
+                res.status(404).send({ message: `There is no shop with [id: ${req.params.id}]!` });
+                return;
+            }
+            res.status(200).send({ message: `Shop with [id: ${req.params.id}] was successfully deleted!` });
         }).catch(err => {
             res.status(500).send({
                 message: err.message || 'Unable to delete shop!'
@@ -192,28 +195,92 @@ exports.delete = async (req, res) => {
         });
 }
 
-exports.update = (req, res) => {
-    if (!req.params.id || !req.body.name || !req.body.address) {
+exports.update = async (req, res) => {
+    if (!req.params.id) {
         res.status(404).send({
-            message: 'You must provide the shop data!'
+            message: 'You must provide the shop id!'
         });
         return;
     }
-    Shop.update({
-        name: req.body.name,
-        address: req.body.address,
-    },
+    await Shop.update(
+        {
+            name: req.body.name,
+            address: req.body.address,
+        },
         {
             where: {
                 id: req.params.id,
-            },
+            }
         }
-    )
-        .then(data => {
-            res.send(data);
-        }).catch(err => {
-            res.status(500).send({
-                message: err.message || 'Unable to update shop!'
-            });
+    ).catch(err => {
+        res.status(404).send({
+            message: err.message || 'Unable to update shop!'
         });
+        return;
+    });
+    const employees = req.body.employees;
+    const products = req.body.products;
+    if(employees != undefined) {
+        for (let j = 0; j < employees.length; j++) {
+            // Find particular position id for product.position
+            let [position] = await Position.findOrCreate({
+                where: { name: employees[j].position },
+                attributes: ['id']
+            });
+            // Create employee if it doesn't exist
+            let [employee] = await Employee.findOrCreate({
+                where: {
+                    fullName: employees[j].fullName,
+                    birthDate: employees[j].birthDate,
+                    positionId: position.id,
+                    enteredDate: employees[j].enteredDate
+                }
+            });
+            // Create relations between shop and employees
+            await ShopEmployee.findOrCreate({
+                where: {
+                    shopId: shop.id,
+                    employeeId: employee.id
+                }
+            });
+        }
+    }
+
+    if(products != undefined) {
+        for (let j = 0; j < products.length; j++) {
+            // Find particular classification id for product.classification
+            let [classification] = await Classification.findOrCreate({
+                where: { name: products[j].classification.name },
+                attributes: ['id']
+            });
+            let [type] = await Type.findOrCreate({
+                where: { name: products[j].classification.type },
+                attributes: ['id']
+            });
+            let [classificationType] = await ClassificationType.findOrCreate({
+                where: {
+                    classificationId: classification.id,
+                    typeId: type.id
+                },
+                attributes: ['id']
+            });
+            // Create product if it doesn't exist
+            let [product] = await Product.findOrCreate({
+                where: {
+                    name: products[j].name,
+                    classificationTypeId: classificationType.id,
+                    price: products[j].price,
+                    description: products[j].description,
+                }
+            });
+            // Create relations between shop and products
+            await ShopProduct.findOrCreate({
+                where: {
+                    productId: product.id,
+                    shopId: shop.id
+                }
+            });
+        }
+    }
+    res.status(200).send({ message: 'Shop was successfully updated!' });
 }
