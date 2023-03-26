@@ -51,16 +51,15 @@
                 "consumes": [
                     "application/json"
                 ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "Shop that needs to be added",
-                        "schema": {
-                            "$ref": "#/definitions/Shop"
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Shop"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Shop is already exists",
@@ -103,23 +102,17 @@
                         "description": "Shop id that needs to be updated",
                         "required": true,
                         "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "Shop object",
-                        "required": true,
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "shop": {
-                                    "type": "object",
-                                    "$ref": "#/definitions/Shop"
-                                }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Shop"
                             }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "successful operation",

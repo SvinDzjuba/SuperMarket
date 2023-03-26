@@ -17,6 +17,11 @@ exports.findAll = async function (req, res) {
                 message: err.message || 'Unable to get all shops!'
             });
         });
+    if(data.length < 1) {
+        res.status(404).send({
+            message: 'Unable to get shops!'
+        });
+    }
     for (let i = 0; i < data.length; i++) {
         new Promise(async (resolve, reject) => {
             let employeesList = [];
@@ -44,7 +49,7 @@ exports.findAll = async function (req, res) {
                 const shop_product = await Product.findOne({ where: { id: shop_products[j].productId } });
                 const classificationType = await ClassificationType.findOne({
                     where: {
-                        id: shop_product.classificationType
+                        id: shop_product.classificationTypeId
                     }
                 });
                 const classification = await Classification.findOne({
@@ -85,7 +90,7 @@ exports.findAll = async function (req, res) {
 }
 
 exports.create = async (req, res) => {
-    console.log(req.body.name);
+    console.log(req.body);
     if (!req.body.name || !req.body.address
         || !req.body.products || !req.body.employees) {
         res.status(404).send({
