@@ -52,9 +52,9 @@ async function configureDb() {
         // ---------------------------------------------------
         Position.hasMany(Employee, { onDelete: 'CASCADE' }, { onUpdate: 'CASCADE' });
 
-        // await db.sync({ alter: true });
+        await db.sync({ alter: true });
         const { insertData } = require('./data/data.insert');
-        // insertData();
+        insertData();
 
         // Api routes
         require('./routes/api/classification.route')(app);
@@ -66,9 +66,7 @@ async function configureDb() {
         require('./routes/api/role.route')(app);
         
         // Search routes
-        require('./routes/api/search/shops_by_product.route')(app);
-        require('./routes/api/search/shop_by_name.route')(app);
-        require('./routes/api/search/shop_employees.route')(app);
+        require('./routes/api/search.route')(app);
 
         // Pages routes
         require('./routes/pages/home.route')(app);
@@ -77,7 +75,6 @@ async function configureDb() {
         // Swagger configuration
         const initSwagger = require('./docs/swagger');
         initSwagger(app);
-
 
     }, 700);
 }

@@ -5,8 +5,9 @@ module.exports.insertData = async () => {
     const jsonStr = JSON.stringify(jsonData);
     const data = await JSON.parse(jsonStr);
 
-    dataController.createAllPositions(data);
-    dataController.createAllClassificationsAndTypes(data);
-    dataController.createShopsAndRelated(data);
-    dataController.createAllRoles();
+    await dataController.createAllPositions(data);
+    await dataController.createAllClassificationsAndTypes(data);
+    await dataController.createShopsAndRelated(data);
+    await dataController.createAllRoles();
+    dataController.createTestUser();
 }

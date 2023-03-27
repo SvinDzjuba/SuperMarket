@@ -18,7 +18,9 @@
     "paths": {
         "/api/shops": {
             "get": {
-                "tags": ["Shop Activity"],
+                "tags": [
+                    "Shop Activity"
+                ],
                 "summary": "Get all the shops",
                 "description": "Get all the shops",
                 "produces": [
@@ -44,7 +46,9 @@
                 }
             },
             "post": {
-                "tags": ["Shop Activity"],
+                "tags": [
+                    "Shop Activity"
+                ],
                 "summary": "Create a new shop",
                 "description": "Add a new shop",
                 "produces": [
@@ -92,7 +96,9 @@
         },
         "/api/shops/{id}": {
             "put": {
-                "tags": ["Shop Activity"],
+                "tags": [
+                    "Shop Activity"
+                ],
                 "summary": "Update the shop",
                 "description": "Update the shop",
                 "produces": [
@@ -135,7 +141,9 @@
                 }
             },
             "delete": {
-                "tags": ["Shop Activity"],
+                "tags": [
+                    "Shop Activity"
+                ],
                 "summary": "Delete the shop",
                 "description": "Delete the shop",
                 "produces": [
@@ -171,7 +179,9 @@
         },
         "/api/search/product/shops/{product}": {
             "get": {
-                "tags": ["Search"],
+                "tags": [
+                    "Search"
+                ],
                 "summary": "Get all the shops that have a particular product",
                 "description": "Get all the shops that have a particular product",
                 "produces": [
@@ -232,7 +242,9 @@
         },
         "/api/search/shop": {
             "post": {
-                "tags": ["Search"],
+                "tags": [
+                    "Search"
+                ],
                 "summary": "Get shops by name",
                 "description": "Get shops by name",
                 "produces": [
@@ -290,7 +302,9 @@
         },
         "/api/search/shop/employees/{id}": {
             "get": {
-                "tags": ["Search"],
+                "tags": [
+                    "Search"
+                ],
                 "summary": "Get all shop employees",
                 "description": "Get all shop employees",
                 "produces": [
@@ -314,6 +328,142 @@
                     },
                     "404": {
                         "description": "You must provide a shop id",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/signin": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Sign in account",
+                "description": "Sign in account",
+                "produces": [
+                    "application/json"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "admin"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "12345"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Maxima XX"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Puru tee 77"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "You must provide a shop name",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/signup": {
+            "post": {
+                "tags": [
+                    "Authorization"
+                ],
+                "summary": "Create the account",
+                "description": "Create the account",
+                "produces": [
+                    "application/json"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "example": "user"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "12345"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    },
+                                    "birthDate": {
+                                        "type": "string",
+                                        "example": "2004-01-24"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Maxima XX"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "example": "Puru tee 77"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "You must provide a shop name",
                         "schema": {
                             "$ref": "#/definitions/InvalidResponse"
                         }

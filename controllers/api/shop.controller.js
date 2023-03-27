@@ -107,7 +107,7 @@ exports.create = async (req, res) => {
         },
         attributes: ['id']
     });
-    if (!created) {
+    if (!created && products.length == 0 && employees.length == 0) {
         res.status(200).send({ message: `Shop '${req.body.name}' is already exists!` });
         return;
     }

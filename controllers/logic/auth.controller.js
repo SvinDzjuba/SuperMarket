@@ -15,8 +15,7 @@ exports.signUp = (req, res) => {
         username: req.body.username,
         password: sha1(req.body.password),
         email: req.body.email,
-        birthDate: req.body.birthdate === undefined ? req.body.birthdate : null,
-        phone: req.body.phone === undefined ? req.body.phone : '',
+        birthDate: req.body.birthDate === undefined ? req.body.birthdate : null
     })
         .then(user => {
             if (req.body.roles) {
@@ -28,14 +27,14 @@ exports.signUp = (req, res) => {
                     }
                 }).then(roles => {
                     user.setRoles(roles).then(() => {
-                        res.send({ message: 'User was registered successfully!' });
+                        res.send({ message: `User ${req.body.username} was registered successfully!` });
                     });
                 });
             } else {
                 // user role = 1
                 user.setRoles([1]).then(() => {
-                    // res.send({ message: 'User was registered successfully!' });
-                    res.redirect('/signin');
+                    res.send({ message: `User '${req.body.username}' was registered successfully!` });
+                    // res.redirect('/signin');
                 });
             }
         })
@@ -78,8 +77,15 @@ exports.signIn = async (req, res) => {
                     for (let i = 0; i < roles.length; i++) {
                         authorities.push("ROLE_" + roles[i].name.toUpperCase());
                     }
-                    process.env.TOKEN = token;
-                    res.status(200).redirect('/');
+                    // process.env.TOKEN = token;
+                    // res.status(200).redirect('/');
+                    res.status(200).send({
+                        id: user.id,
+                        username: user.username,
+                        email: user.email,
+                        roles: authorities,
+                        accessToken: token
+                    });
                 });
             })
             .catch(err => {
