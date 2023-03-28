@@ -193,7 +193,8 @@
                         "in": "path",
                         "description": "Product that has any shop",
                         "required": true,
-                        "type": "string"
+                        "type": "string",
+                        "example": "tomatoes"
                     }
                 ],
                 "responses": {
@@ -241,7 +242,7 @@
             }
         },
         "/api/search/shop": {
-            "post": {
+            "get": {
                 "tags": [
                     "Search"
                 ],
@@ -250,21 +251,16 @@
                 "produces": [
                     "application/json"
                 ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "example": "Maxima XX"
-                                    }
-                                }
-                            }
-                        }
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Shop name that you want to search",
+                        "required": true,
+                        "type": "string",
+                        "example": "Maxima XX"
                     }
-                },
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -328,6 +324,78 @@
                     },
                     "404": {
                         "description": "You must provide a shop id",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/search/products/{type}": {
+            "get": {
+                "tags": [
+                    "Search"
+                ],
+                "summary": "Get products by type",
+                "description": "Get products by type",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "path",
+                        "description": "Type name by which you want to search products",
+                        "required": true,
+                        "type": "string",
+                        "example": "Tomatoes"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Estonian tomatoes"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 2.54
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Spanish tomatoes"
+                                    },
+                                    "classification": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Vegetables"
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "Tomatoes"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "You must provide a type name",
                         "schema": {
                             "$ref": "#/definitions/InvalidResponse"
                         }

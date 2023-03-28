@@ -41,6 +41,7 @@ app.listen(PORT, () => {
     }, 100);
 
     async function init(db) {
+
         // Configure database
         let User = require('./models/user');
         let Role = require('./models/role');
@@ -92,5 +93,6 @@ app.listen(PORT, () => {
         // Swagger configuration
         const initSwagger = require('./docs/swagger');
         initSwagger(app);
+
     }
 })();

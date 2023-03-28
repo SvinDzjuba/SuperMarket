@@ -47,13 +47,13 @@ exports.getShopsByProduct = async function (req, res) {
 };
 
 exports.getShopByName = async function (req, res) {
-    if(!req.body.name) {
+    if(!req.params.name) {
         res.status(404).send({ message: 'You must provide a shop name' });
         return;
     }
     const shops = await Shop.findAll({
         where: {
-            name: req.body.name
+            name: req.params.name
         }
     });
     if(shops.length == 0) {
@@ -100,4 +100,54 @@ exports.getShopEmployees = async function (req, res) {
         }
     }
     res.status(200).send(employees);
+};
+
+exports.getProductsByType = async function (req, res) {
+    if(!req.params.type) {
+        res.status(404).send({ message: 'You must provide a product type!' });
+        return;
+    }
+    req.params.type = req.params.type.charAt(0).toUpperCase() + req.params.type.slice(1);
+    const type = await Type.findOne({
+        where: {
+            name: req.params.type
+        }
+    });
+    if(type == null) {
+        res.status(404).send({ message: `Unable to find products by type '${req.params.type}'` });
+        return;
+    }
+    let products = [];
+    const classificationType = await ClassificationType.findAll({
+        where: {
+            typeId: type.id
+        }
+    });
+    for (let i = 0; i < classificationType.length; i++) {
+        let productsList = await Product.findAll({
+            where: {
+                classificationTypeId: classificationType[i].id
+            }
+        });
+        if(productsList != null) {
+            let classification = await Classification.findOne({
+                where: {
+                    id: classificationType[i].classificationId
+                }
+            });
+            for (let j = 0; j < productsList.length; j++) {
+                let product = {
+                    name: productsList[j].name,
+                    price: productsList[j].price,
+                    description: productsList[j].description,
+                    classification: {
+                        name: classification.name,
+                        type: req.params.type
+                    },
+                }
+                products.push(product);
+            }
+        }
+    }
+    res.status(200).send(products);
 };

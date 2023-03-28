@@ -20,5 +20,5 @@ exports.createTestUser = async () => {
             userId: user.id,
             roleId: role.id
         }
-    })
+    });
 }

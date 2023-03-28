@@ -9,6 +9,9 @@ module.exports = app => {
     router.get('/shop/employees/:id', controller.getShopEmployees);
     app.use('/api/search/shop/employees', router);
 
-    router.post('/shop', controller.getShopByName);
+    router.get('/shop/:name', controller.getShopByName);
     app.use('/api/search/shop', router);
+
+    router.get('/products/:type', controller.getProductsByType);
+    app.use('/api/search/products', router);
 }
