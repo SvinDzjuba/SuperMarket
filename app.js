@@ -17,13 +17,30 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-async function configureDb() {
+(async function configureDb() {
     await createDb();
-    setTimeout(async () => {
 
-        // Getting the sequelize instance
+    // Getting the sequelize instance
+    let intervalCount = 0;
+    let interval = setInterval(() => {
         const { db } = require('./config/database');
+        if(db != undefined) {
+            if(db == 'NO_XAMPP') {
+                clearInterval(interval);
+                return;
+            }
+            init(db);
+            clearInterval(interval);
+        } else {
+            intervalCount++;
+        }
+        if(intervalCount == 50) {
+            clearInterval(interval);
+            console.log('The database connection timed out.');
+        }
+    }, 100);
 
+    async function init(db) {
         // Configure database
         let User = require('./models/user');
         let Role = require('./models/role');
@@ -75,7 +92,5 @@ async function configureDb() {
         // Swagger configuration
         const initSwagger = require('./docs/swagger');
         initSwagger(app);
-
-    }, 700);
-}
-configureDb();
+    }
+})();
