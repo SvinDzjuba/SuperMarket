@@ -1,3 +1,4 @@
+const { execFile } = require('child_process');
 const { Sequelize } = require('sequelize');
 const mysql = require('mysql2');
 
@@ -13,7 +14,9 @@ module.exports.createDb = async function createDb() {
     connection.query('SHOW DATABASES WHERE `database` = "SupermarketDB"', 
         function(err, result) {
             if(!result) {
-                console.log('Turn on the xampp!');
+                // execFile('C:\\xampp\\xampp_start.exe');
+                console.log('Turn on the MySQL module!');
+                execFile('C:\\xampp\\xampp-control.exe');
                 module.exports.db = 'NO_XAMPP';
                 return;
             }
