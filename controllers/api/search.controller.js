@@ -64,13 +64,22 @@ exports.getShopByName = async function (req, res) {
 };
 
 exports.getShopEmployees = async function (req, res) {
-    if(!req.params.id) {
+    if(!req.params.shop) {
         res.status(404).send({ message: 'You must provide a shop id' });
+        return;
+    }
+    const shop = await Shop.findOne({
+        where: { name: req.params.shop }
+    });
+    if(shop == null) {
+        res.status(404).send({ 
+            message: `Unable to get shop with name: ${req.params.shop}` 
+        });
         return;
     }
     const shop_employees = await ShopEmployee.findAll({
         where: {
-            shopId: req.params.id
+            shopId: shop.id
         }
     });
     if(shop_employees.length == 0) {
@@ -151,3 +160,38 @@ exports.getProductsByType = async function (req, res) {
     }
     res.status(200).send(products);
 };
+
+exports.getAllEmployeesByPosition = async (req, res) => {
+    if(!req.params.position) {
+        res.status(404).send({ message: 'You muse provide a position name!' });
+        return;
+    }
+    req.params.position = req.params.position.toUpperCase();
+    const position = await Position.findOne({
+        where: { name: req.params.position }
+    });
+    if(position == nul) {
+        res.status(404).send({ 
+            message: `Unable to find employees by position [${req.params.position}]` 
+        });
+        return;
+    }
+    const employees = await Employee.findAll({
+        where: {
+            positionId: position.id
+        },
+        attributes: ['id', 'fullName', 'birthDate', 'enteredDate']
+    });
+    if(employees.length == 0) {
+        res.status(404).send({
+            message: 'Unable to find employees by this position!'
+        });
+        return;
+    }
+    const response = {
+        position: req.params.position,
+        employees: []
+    }
+    response.employees = employees;
+    res.status(200).send(response);
+}

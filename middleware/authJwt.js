@@ -7,13 +7,13 @@ verifyToken = (req, res, next) => {
     var token = process.env.TOKEN;
 
     if (!token) {
-        // return res.status(403).send({
-        //     message: 'No token provided!'
-        // });
-        res.render('home', {
-            username: undefined,
-            roles: undefined
+        return res.status(403).send({
+            message: 'No token provided!'
         });
+        // res.render('home', {
+        //     username: undefined,
+        //     roles: undefined
+        // });
         return;
     }
 

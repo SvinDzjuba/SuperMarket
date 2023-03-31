@@ -22,7 +22,7 @@ module.exports.createDb = async function createDb() {
             }
             if(result.length != 0) {
                 // Database already created
-                console.log('The database has already been created.');
+                console.log('The database is ready for routine work.. ;(');
                 createSeqConnection();
             } else {
                 // Database not created yet 

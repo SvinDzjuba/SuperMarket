@@ -70,9 +70,9 @@ app.listen(PORT, () => {
         // ---------------------------------------------------
         Position.hasMany(Employee, { onDelete: 'CASCADE' }, { onUpdate: 'CASCADE' });
 
-        await db.sync({ alter: true });
+        // await db.sync({ alter: true });
         const { insertData } = require('./data/data.insert');
-        insertData();
+        // insertData();
 
         // Api routes
         require('./routes/api/classification.route')(app);
@@ -85,6 +85,9 @@ app.listen(PORT, () => {
         
         // Search routes
         require('./routes/api/search.route')(app);
+        
+        // Auth user routes
+        require('./routes/api/user.route')(app);
 
         // Pages routes
         require('./routes/pages/home.route')(app);

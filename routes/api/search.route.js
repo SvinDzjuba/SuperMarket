@@ -6,7 +6,7 @@ module.exports = app => {
     router.get('/product/shops/:product', controller.getShopsByProduct);
     app.use('/api/search/product/shops', router);
 
-    router.get('/shop/employees/:id', controller.getShopEmployees);
+    router.get('/shop/employees/:shop', controller.getShopEmployees);
     app.use('/api/search/shop/employees', router);
 
     router.get('/shop/:name', controller.getShopByName);
@@ -14,4 +14,7 @@ module.exports = app => {
 
     router.get('/products/:type', controller.getProductsByType);
     app.use('/api/search/products', router);
+
+    router.get('/employees/:position', controller.getAllEmployeesByPosition);
+    app.use('/api/search/employees', router);
 }

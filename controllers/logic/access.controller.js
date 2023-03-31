@@ -1,7 +1,11 @@
 const { authJwt } = require('../../middleware');
 
 exports.checkAccess = (req, res) => {
-    res.send({ message: req.uid });
+    let roles = '';
+    for (let i = 0; i < req.roles.length; i++) {
+        roles += ' ' + req.roles[i].name + ' ';
+    }
+    res.status(200).send({ message: `[${roles}] Content!` });
 };
 exports.allAccess = (req, res) => {
     res.send({ message: 'Public Content!' });

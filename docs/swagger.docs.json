@@ -19,7 +19,7 @@
         "/api/shops": {
             "get": {
                 "tags": [
-                    "Shop Activity"
+                    "Store Actions"
                 ],
                 "summary": "Get all the shops",
                 "description": "Get all the shops",
@@ -47,7 +47,7 @@
             },
             "post": {
                 "tags": [
-                    "Shop Activity"
+                    "Store Actions"
                 ],
                 "summary": "Create a new shop",
                 "description": "Add a new shop",
@@ -97,7 +97,7 @@
         "/api/shops/{id}": {
             "put": {
                 "tags": [
-                    "Shop Activity"
+                    "Store Actions"
                 ],
                 "summary": "Update the shop",
                 "description": "Update the shop",
@@ -142,7 +142,7 @@
             },
             "delete": {
                 "tags": [
-                    "Shop Activity"
+                    "Store Actions"
                 ],
                 "summary": "Delete the shop",
                 "description": "Delete the shop",
@@ -241,7 +241,7 @@
                 }
             }
         },
-        "/api/search/shop": {
+        "/api/search/shop/{name}": {
             "get": {
                 "tags": [
                     "Search"
@@ -296,7 +296,7 @@
                 }
             }
         },
-        "/api/search/shop/employees/{id}": {
+        "/api/search/shop/employees/{shop}": {
             "get": {
                 "tags": [
                     "Search"
@@ -308,9 +308,9 @@
                 ],
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "shop",
                         "in": "path",
-                        "description": "Shop id that need for employees search",
+                        "description": "Shop name that need for employees search",
                         "required": true,
                         "type": "integer"
                     }
@@ -323,7 +323,7 @@
                         }
                     },
                     "404": {
-                        "description": "You must provide a shop id",
+                        "description": "You must provide a shop name",
                         "schema": {
                             "$ref": "#/definitions/InvalidResponse"
                         }
@@ -396,6 +396,81 @@
                     },
                     "404": {
                         "description": "You must provide a type name",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/search/employees/{position}": {
+            "get": {
+                "tags": [
+                    "Search"
+                ],
+                "summary": "Get all employees by position",
+                "description": "Get all employees by position",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "position",
+                        "in": "path",
+                        "description": "Position name by which you want to search employees",
+                        "required": true,
+                        "type": "string",
+                        "example": "Director"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "position": {
+                                        "type": "string",
+                                        "example": "Director"
+                                    },
+                                    "employees": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "fullName": {
+                                                    "type": "string",
+                                                    "example": "Elena Sabieva"
+                                                },
+                                                "birthDate": {
+                                                    "type": "string",
+                                                    "example": "2000-02-01"
+                                                },
+                                                "enteredDate": {
+                                                    "type": "string",
+                                                    "example": "2018-05-25"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "You must provide a position name",
                         "schema": {
                             "$ref": "#/definitions/InvalidResponse"
                         }
@@ -532,6 +607,43 @@
                     },
                     "404": {
                         "description": "You must provide a shop name",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/access": {
+            "get": {
+                "tags": [
+                    "Actions with a token"
+                ],
+                "summary": "Get authorized user content access",
+                "description": "Get authorized user content access",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "type": "string",
+                                "name": "message",
+                                "example": "[ USER ] Content!"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No token provided!",
                         "schema": {
                             "$ref": "#/definitions/InvalidResponse"
                         }

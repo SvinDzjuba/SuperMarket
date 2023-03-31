@@ -1,4 +1,5 @@
-const { verifySignUp } = require('../../middleware');
+const { verifySignUp, authJwt } = require('../../middleware');
+const accessController = require('../../controllers/logic/access.controller');
 const controller = require('../../controllers/logic/auth.controller');
 
 module.exports = app => {
