@@ -642,14 +642,20 @@
                             }
                         }
                     },
-                    "404": {
-                        "description": "No token provided!",
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/InvalidResponse"
                         }
                     },
                     "400": {
                         "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No token provided!",
                         "schema": {
                             "$ref": "#/definitions/InvalidResponse"
                         }
