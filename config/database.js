@@ -9,26 +9,25 @@ module.exports.createDb = async function createDb() {
         user: 'root',
         password: ''
     });
-    
+
     // Create database if not exist
-    connection.query('SHOW DATABASES WHERE `database` = "SupermarketDB"', 
-        function(err, result) {
-            if(!result) {
+    connection.query('SHOW DATABASES WHERE `database` = "SupermarketDB"',
+        function (err, result) {
+            if (!result) {
                 // execFile('C:\\xampp\\xampp_start.exe');
-                console.log('Turn on the MySQL module!');
                 execFile('C:\\xampp\\xampp-control.exe');
                 module.exports.db = 'NO_XAMPP';
                 return;
             }
-            if(result.length != 0) {
+            if (result.length != 0) {
                 // Database already created
-                console.log('The database is ready for routine work.. ;(');
+                console.log('The database is ready for routine work.. :(');
                 createSeqConnection();
             } else {
                 // Database not created yet 
-                connection.query(`CREATE DATABASE SupermarketDB CHARACTER SET utf8 COLLATE utf8_general_ci`, 
-                    function(err, result) {
-                        if(err == null) {
+                connection.query(`CREATE DATABASE SupermarketDB CHARACTER SET utf8 COLLATE utf8_general_ci`,
+                    function (err, result) {
+                        if (err == null) {
                             createSeqConnection();
                         } else {
                             console.log('An error occurred while creating the database!');

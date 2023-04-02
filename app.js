@@ -26,7 +26,9 @@ app.listen(PORT, () => {
         const { db } = require('./config/database');
         if(db != undefined) {
             if(db == 'NO_XAMPP') {
-                clearInterval(interval);
+                setTimeout(() => {
+                    throw new Error("MySQL module not found! Check if it's enabled in XAMPP.");
+                }, 700);
                 return;
             }
             init(db);
@@ -36,7 +38,7 @@ app.listen(PORT, () => {
         }
         if(intervalCount == 50) {
             clearInterval(interval);
-            console.log('The database connection timed out.');
+            throw new Error('The database connection timed out!');
         }
     }, 100);
 
