@@ -9,7 +9,7 @@ module.exports.insertData = async () => {
     await dataController.createAllClassificationsAndTypes(data);
     await dataController.createShopsAndRelated(data);
     await dataController.createAllRoles();
-    await dataController.createTestUser();
+    await dataController.createTestUsers();
 
     const PORT = process.env.PORT || 3000;
     console.log(`\n-- Everything is fine! You can use the app on [PORT: ${PORT}] --`);

@@ -9,5 +9,5 @@ module.exports = {
     createShopsAndRelated: dataShop.createShopsAndRelated,
     createAllPositions: dataPosition.createAllPositions,
     createAllRoles: dataRole.createAllRoles,
-    createTestUser: dataUser.createTestUser
+    createTestUsers: dataUser.createTestUsers
 };

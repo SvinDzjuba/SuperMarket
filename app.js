@@ -26,9 +26,11 @@ app.listen(PORT, () => {
         const { db } = require('./config/database');
         if(db != undefined) {
             if(db == 'NO_XAMPP') {
-                setTimeout(() => {
-                    throw new Error("MySQL module not found! Check if it's enabled in XAMPP.");
-                }, 700);
+                // setTimeout(() => {
+                //     throw new Error("MySQL module not found! Check if it's enabled in XAMPP.");
+                // }, 700);
+                console.log("MySQL module not found! Check if it's enabled in XAMPP.");
+                clearInterval(interval);
                 return;
             }
             init(db);
@@ -72,9 +74,9 @@ app.listen(PORT, () => {
         // ---------------------------------------------------
         Position.hasMany(Employee, { onDelete: 'CASCADE' }, { onUpdate: 'CASCADE' });
 
-        // await db.sync({ alter: true });
+        await db.sync({ alter: true });
         const { insertData } = require('./data/data.insert');
-        // insertData();
+        insertData();
 
         // Api routes
         require('./routes/api/classification.route')(app);

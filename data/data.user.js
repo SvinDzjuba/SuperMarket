@@ -3,8 +3,9 @@ const Role = require('../models/role');
 const UserRoles = require('../models/user_roles');
 var { sha1 } = require('sha1-hash-and-verify');
 
-exports.createTestUser = async () => {
-    const [user] = await User.findOrCreate({
+exports.createTestUsers = async () => {
+    // User 1
+    let [user] = await User.findOrCreate({
         where: {
             username: 'admin',
             password: sha1('12345'),
@@ -12,8 +13,27 @@ exports.createTestUser = async () => {
             birthDate: '2000-12-22'
         }
     });
-    const role = await Role.findOne({
+    let role = await Role.findOne({
         where: { name: 'admin' }
+    })
+    await UserRoles.findOrCreate({
+        where: {
+            userId: user.id,
+            roleId: role.id
+        }
+    });
+
+    // User 2
+    [user] = await User.findOrCreate({
+        where: {
+            username: 'user',
+            password: sha1('123'),
+            email: 'user@example.com',
+            birthDate: '2004-12-22'
+        }
+    });
+    role = await Role.findOne({
+        where: { name: 'user' }
     })
     await UserRoles.findOrCreate({
         where: {
