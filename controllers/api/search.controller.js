@@ -170,7 +170,7 @@ exports.getAllEmployeesByPosition = async (req, res) => {
     const position = await Position.findOne({
         where: { name: req.params.position }
     });
-    if(position == nul) {
+    if(position == null) {
         res.status(404).send({ 
             message: `Unable to find employees by position [${req.params.position}]` 
         });

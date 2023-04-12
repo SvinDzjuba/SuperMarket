@@ -202,7 +202,7 @@ exports.update = async (req, res) => {
         });
         return;
     }
-    await Shop.update(
+    const [shop] = await Shop.upsert(
         {
             name: req.body.name,
             address: req.body.address,
